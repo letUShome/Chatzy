@@ -31,18 +31,19 @@ public class SecurityConfig{
         httpSecurity.csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // .and()
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**",
                         "/js/**", "/h2-console/**").permitAll() // 우선 전체허용
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                .logoutSuccessHandler(logoutSuccessHandler)
+                .logoutSuccessUrl("/")
+                // .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .oauth2Login()
-                .successHandler(loginSuccessHandler)
+                // .successHandler(loginSuccessHandler)
                 .userInfoEndpoint().userService(customOauth2UserService);
 
 

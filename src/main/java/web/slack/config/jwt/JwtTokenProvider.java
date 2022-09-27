@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import web.slack.domain.entity.Member;
+import web.slack.domain.repository.MemberRepository;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final UserDetailsService userDetailsService;
+    private final MemberRepository memberRepository;
 
     @Value("${spring.jwt.secret-key}")
     private String SECRET_KEY;
@@ -66,8 +68,8 @@ public class JwtTokenProvider {
      * @return
      */
     public Authentication getAuthentication(String token){
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getMemberId(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        Member member = memberRepository.findById(getMemberId(token)).get();
+        return new UsernamePasswordAuthenticationToken(member, "");
     }
 
     /**
