@@ -39,11 +39,10 @@ public class SecurityConfig{
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
-                // .logoutSuccessHandler(logoutSuccessHandler)
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .oauth2Login()
-                // .successHandler(loginSuccessHandler)
+                .successHandler(loginSuccessHandler)
                 .userInfoEndpoint().userService(customOauth2UserService);
 
 

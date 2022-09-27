@@ -21,6 +21,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             }
         }
         response.setStatus(HttpServletResponse.SC_OK);
-        response.sendRedirect("https://localhost:3000");
+        response.sendRedirect("http://localhost:3000");
     }
 }
