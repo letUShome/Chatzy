@@ -35,19 +35,12 @@ public class JwtTokenProvider {
     // 토큰 유효시간 30분
     private Long tokenValidTime = 30 * 60 * 1000L;
 
-    /**
-     * 객체 초기화, SECRET_KEY를 Base64로 인코딩*
-     */
     @PostConstruct
     protected void init(){
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
     }
 
-    /**
-     * *
-     * @param memberId
-     * @return jwt token
-     */
+
     public String createToken(String memberId){
         // JWT payload에 저장되는 정보단위. user 식별값
         Claims claims = Jwts.claims().setSubject(memberId);
@@ -61,22 +54,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    /**
-     * *
-     * 유저 인증 정보 조회*
-     * @param token
-     * @return
-     */
+
     public Authentication getAuthentication(String token){
         Member member = memberRepository.findById(getMemberId(token)).get();
         return new UsernamePasswordAuthenticationToken(member, "");
     }
 
-    /**
-     * 토큰에서 유저 정보 추출*
-     * @param token
-     * @return
-     */
     public String getMemberId(String token){
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }

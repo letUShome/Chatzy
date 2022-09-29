@@ -1,6 +1,7 @@
 package web.slack.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
@@ -28,7 +30,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
-        System.out.println(oAuth2User.getAuthorities());
+        log.info(oAuth2User.getAttributes().toString());
 
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         OauthAttributes attributes = OauthAttributes.ofGoogle(userNameAttributeName, oAuth2User.getAttributes());

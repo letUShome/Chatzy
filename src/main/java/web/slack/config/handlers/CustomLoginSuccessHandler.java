@@ -1,6 +1,7 @@
 package web.slack.config.handlers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -24,10 +25,8 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println(oAuth2User.getAttributes());
         String token = jwtTokenProvider.createToken(findMemberId(oAuth2User));
         response.setHeader("Authentication", token);
-        System.out.println(response.getHeader("Authentication"));
         getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());
     }
 
