@@ -27,6 +27,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         System.out.println(oAuth2User.getAttributes());
         String token = jwtTokenProvider.createToken(findMemberId(oAuth2User));
         response.setHeader("Authentication", token);
+        System.out.println(response.getHeader("Authentication"));
         getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());
     }
 

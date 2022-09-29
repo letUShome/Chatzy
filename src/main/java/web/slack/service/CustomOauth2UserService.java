@@ -2,6 +2,7 @@ package web.slack.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -14,6 +15,7 @@ import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
 
 import java.util.Collections;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -46,5 +48,11 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         } else{
             return memberRepository.findByEmail(attributes.getEmail()).get();
         }
+    }
+
+    public String  loadUserPostman(Map<String, Object> attribute) {
+        OauthAttributes attributes = OauthAttributes.ofGoogle((String) attribute.get("sub"), attribute);
+        Member member = saveOrUpate(attributes);
+        return member.getId();
     }
 }
