@@ -26,7 +26,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String token = jwtTokenProvider.createToken(findMemberId(oAuth2User));
-        response.setHeader("Authentication", token);
+        response.setHeader("Authorization", token);
         getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());
     }
 

@@ -16,7 +16,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         // authentication 정보가 있으면 로그아웃 로직 실행
         if(authentication != null && authentication.getDetails() != null){
             try{
-                request.getHeader("Authentication");
+                request.getHeader("Authorization");
                 //TODO: redis에 있는 refresh token 제거
                 //TODO: Header에 jwt 토큰 제거
             } catch (Exception e){
