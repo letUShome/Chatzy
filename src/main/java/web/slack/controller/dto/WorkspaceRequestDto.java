@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
-package web.slack.controller.dto;public class WorkspaceRequestDto {
-=======
+
 package web.slack.controller.dto;
 
 import lombok.Builder;
@@ -16,5 +14,4 @@ public class WorkspaceRequestDto {
         this.name = name;
     }
 
->>>>>>> Stashed changes
 }
