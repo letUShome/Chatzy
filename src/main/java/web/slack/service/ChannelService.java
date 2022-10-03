@@ -20,9 +20,11 @@ public class ChannelService {
 
         for (Channel channel : channels) {
             ChannelDTO channelDTO = ChannelDTO.builder()
+                                                .id(channel.getId())
                                                 .workspaceId(channel.getWorkspaceId())
                                                 .name(channel.getName())
                                                 .type(channel.getType().toString())
+                                                .teammate(channel.getTeammate())
                                                 .build();
             channelDTOs.add(channelDTO);
         }
@@ -32,16 +34,19 @@ public class ChannelService {
     public ChannelDTO findChannel(String channelId) {
         Channel channel = channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("없는 채널입니다"));
         ChannelDTO channelDTO= ChannelDTO.builder()
+                                .id(channel.getId())
                                 .workspaceId(channel.getWorkspaceId())
                                 .name(channel.getName())
                                 .type(channel.getType().toString())
+                                .teammate(channel.getTeammate())
                                 .build();
         return channelDTO;
     }
 
     public ChannelDTO addChannel(ChannelDTO channelDTO) {
         Channel channel = channelDTO.toEntity();
-        channelRepository.save(channel);
-        return channelDTO;
+        String channelId = channelRepository.save(channel).getId();
+        Channel savedChannel = channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("없는 채널입니다"));
+        return savedChannel.toDTO();
     }
 }

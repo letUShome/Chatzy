@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ChannelType {
-    DM("TYPE_DM", "dm"),
-    GROUP("TYPE_GROUP", "group");
+    DM("TYPE_DM", "DM"),
+    GROUP("TYPE_GROUP", "GROUP");
 
     private final String key;
     private final String value;

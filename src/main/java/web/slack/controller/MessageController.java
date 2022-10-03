@@ -2,6 +2,7 @@ package web.slack.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -15,6 +16,7 @@ import web.slack.controller.dto.MessageResponseDTO;
 @Slf4j
 @RequestMapping("/channel")
 public class MessageController {
+
     private final SimpMessageSendingOperations template;
 
     @MessageMapping("/{channel_id}/sendMessage")
