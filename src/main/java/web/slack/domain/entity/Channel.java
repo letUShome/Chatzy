@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Document(collection = "Channel")
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Channel {
 
     @Id
@@ -36,13 +35,13 @@ public class Channel {
         this.teammate = teammate;
     }
 
-    public ChannelDTO toDTO() {
+    public ChannelDTO toDTO(List<String> memberIds) {
         return ChannelDTO.builder()
                 .id(this.getId())
                 .name(this.getName())
                 .type(this.getType().getValue())
                 .workspaceId(this.getWorkspaceId())
-                .teammate(this.getTeammate())
+                .teammate(memberIds)
                 .build();
     }
 }

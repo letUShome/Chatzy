@@ -1,8 +1,10 @@
 package web.slack.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import web.slack.domain.entity.Message;
 import web.slack.domain.entity.MessageType;
 
 import java.time.LocalDateTime;
@@ -10,19 +12,30 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class MessageRequestDTO {
-    private MessageType type;
+
+    @JsonProperty("channel_id")
     private String channelId;
+
     private String sender;
-    private String message;
-    private String time;
+
+    private String context;
+
+    private MessageType type;
 
     @Builder
-    public MessageRequestDTO(String type, String channelId, String sender, String message) {
-        LocalDateTime time = LocalDateTime.now();
+    public MessageRequestDTO(String type, String channelId, String sender, String context) {
         this.type = MessageType.valueOf(type);
         this.channelId = channelId;
-        this.message = message;
+        this.context = context;
         this.sender = sender;
-        this.time = time.toString();
+    }
+
+    public Message toEntity() {
+        return Message.builder()
+                    .sender(this.getSender())
+                    .channel(this.getChannelId())
+                    .context(this.getContext())
+                    .type(this.getType())
+                    .build();
     }
 }

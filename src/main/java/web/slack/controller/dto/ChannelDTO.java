@@ -1,11 +1,13 @@
 package web.slack.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import web.slack.domain.entity.Channel;
 import web.slack.domain.entity.ChannelType;
 import web.slack.domain.entity.Member;
+import web.slack.service.ChannelService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,13 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 public class ChannelDTO {
     private String id;
+
+    @JsonProperty("workspace_id")
     private String workspaceId;
+
     private String name;
     private ChannelType type;
-    private List<Member> teammate;
+    private List<String> teammate;
 
     @Builder
-    public ChannelDTO(String id, String workspaceId, String name, String type, List<Member> teammate) {
+    public ChannelDTO(String id, String workspaceId, String name, String type, List<String> teammate) {
         this.id = id;
         this.workspaceId = workspaceId;
         this.name = name;
@@ -28,12 +33,12 @@ public class ChannelDTO {
         this.teammate = teammate;
     }
 
-    public Channel toEntity() {
+    public Channel toEntity(List<Member> members) {
         return Channel.builder()
                 .name(this.getName())
                 .type(this.getType())
                 .workspaceId(this.getWorkspaceId())
-                .teammate(this.teammate)
+                .teammate(members)
                 .build();
     }
 }

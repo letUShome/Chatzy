@@ -2,9 +2,12 @@ package web.slack.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import web.slack.controller.dto.ChannelDTO;
 import web.slack.domain.entity.Channel;
+import web.slack.domain.entity.Member;
 import web.slack.domain.repository.ChannelRepository;
+import web.slack.domain.repository.MemberRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChannelService {
     private final ChannelRepository channelRepository;
+    private final MemberRepository memberRepository;
 
     public List<ChannelDTO> findChannels() {
         List<Channel> channels = channelRepository.findAll();
@@ -24,7 +28,7 @@ public class ChannelService {
                                                 .workspaceId(channel.getWorkspaceId())
                                                 .name(channel.getName())
                                                 .type(channel.getType().toString())
-                                                .teammate(channel.getTeammate())
+                                                .teammate(createIdList(channel.getTeammate()))
                                                 .build();
             channelDTOs.add(channelDTO);
         }
@@ -38,15 +42,39 @@ public class ChannelService {
                                 .workspaceId(channel.getWorkspaceId())
                                 .name(channel.getName())
                                 .type(channel.getType().toString())
-                                .teammate(channel.getTeammate())
+                                .teammate(createIdList(channel.getTeammate()))
                                 .build();
         return channelDTO;
     }
 
+    @Transactional
     public ChannelDTO addChannel(ChannelDTO channelDTO) {
-        Channel channel = channelDTO.toEntity();
+        List<Member> members = findMemberById(channelDTO.getTeammate());
+
+        Channel channel = channelDTO.toEntity(members);
         String channelId = channelRepository.save(channel).getId();
+
         Channel savedChannel = channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("없는 채널입니다"));
-        return savedChannel.toDTO();
+        List<String> memberIds = createIdList(members);
+        return savedChannel.toDTO(memberIds);
+    }
+
+    //나중에 memberservice로 옮길 내용
+    public List<Member> findMemberById(List<String> memberIds) {
+        List<Member> members = new ArrayList<>();
+        for(String memberId : memberIds) {
+            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("없는 유저입니다"));
+            members.add(member);
+        }
+        return members;
+    }
+
+    public List<String> createIdList(List<Member> members) {
+        List<String> memberIds = new ArrayList<>();
+        for(Member member : members) {
+            String memberId = member.getId();
+            memberIds.add(memberId);
+        }
+        return memberIds;
     }
 }

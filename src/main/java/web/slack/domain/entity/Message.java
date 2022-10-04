@@ -23,8 +23,6 @@ public class Message {
 
     private Boolean readFlag;
 
-    private Boolean pinFlag;
-
     @Builder
     public Message(String context, String sender, String channel, MessageType type) {
         this.context = context;
@@ -32,6 +30,5 @@ public class Message {
         this.channel = channel;
         this.type = type;
         this.readFlag = false;
-        this.pinFlag = false;
     }
 }
