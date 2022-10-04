@@ -1,10 +1,9 @@
 package web.slack.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.slack.controller.dto.TestDto;
+import web.slack.controller.dto.TestRequestDto;
 import web.slack.domain.entity.Test;
 import web.slack.service.TestService;
 
@@ -20,6 +19,11 @@ public class TestController {
     @GetMapping
     public List<Test> testList(){
         return testService.findTests();
+    }
+
+    @PostMapping
+    public String addTest(@RequestBody TestRequestDto requestDto){
+        return testService.saveTest(requestDto);
     }
 
 }
