@@ -9,12 +9,13 @@ import web.slack.service.WorkspaceService;
 import java.util.List;
 
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/workspace")
 public class WorkspaceController {
 
     private final WorkspaceService workspaceService;
 
-    @PostMapping
+    @PostMapping()
     public WorkspaceResponseDto saveWorkspace(@RequestBody WorkspaceRequestDto workspaceRequestDto){
         return workspaceService.saveWorkspace(workspaceRequestDto);
     }
