@@ -33,15 +33,15 @@ public class JwtTokenProvider {
     private String SECRET_KEY;
 
     // 토큰 유효시간 30분
-    private Long tokenValidTime = 30 * 60 * 1000L;
+    private Long accessTokenValidTime = 30 * 60 * 1000L;
+    private Long refreshTokenValidTime = 1000L * 60 * 60 * 24;
 
     @PostConstruct
     protected void init(){
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
     }
 
-
-    public String createToken(String memberId){
+    public String createToken(String memberId, Long tokenValidTime){
         // JWT payload에 저장되는 정보단위. user 식별값
         Claims claims = Jwts.claims().setSubject(memberId);
         Date now = new Date();
@@ -54,6 +54,13 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String createAccessToken(String memberId){
+        return this.createToken(memberId, accessTokenValidTime);
+    }
+
+    public String createRefreshToken(String memberId){
+        return this.createToken(memberId, refreshTokenValidTime);
+    }
 
     public Authentication getAuthentication(String token){
         Member member = memberRepository.findById(getMemberId(token)).get();

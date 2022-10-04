@@ -22,7 +22,10 @@ public class MemberController {
     @PostMapping("/postman")
     public String postmanTest(@RequestBody Map<String, Object> attribute, HttpServletResponse response){
         String memberId = oauth2UserService.loadUserPostman(attribute);
-        response.setHeader("Authorization", jwtTokenProvider.createToken(memberId));
+        String token = jwtTokenProvider.createAccessToken(memberId);
+        String refreshToken = jwtTokenProvider.createRefreshToken(memberId);
+        response.setHeader("Authorization", token);
+        response.setHeader("refresh-token", refreshToken);
         return "Response with header using HttpServletResponse";
     }
 
