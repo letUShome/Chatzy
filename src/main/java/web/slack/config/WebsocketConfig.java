@@ -12,12 +12,12 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-stomp").withSockJS();
+        registry.addEndpoint("/ws/chat").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/sub"); //메세지 송신
+        registry.enableSimpleBroker("/dm", "/channel"); //메세지 송신(dm - 1:1, channel - n:n)
         registry.setApplicationDestinationPrefixes("/pub");  //메세지 전송
     }
 }
