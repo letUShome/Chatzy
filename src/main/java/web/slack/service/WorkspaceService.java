@@ -9,6 +9,7 @@ import web.slack.domain.repository.WorkspaceRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkspaceService {
@@ -55,6 +56,21 @@ public class WorkspaceService {
         Workspace entity = workspaceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 워크스페이스가 없습니다. id " + id));
         return new WorkspaceResponseDto(entity);
+    }
+
+    // 워크스페이스 수정
+    @Transactional
+    public WorkspaceResponseDto updateWorkspace(String id, Workspace workspace){
+        Optional<Workspace> workspaceData = workspaceRepository.findById(id);
+
+        if(workspaceData.isPresent()) {
+            Workspace _workspace = workspaceData.get();
+            _workspace.setName(workspace.getName());
+            return new WorkspaceResponseDto(workspaceRepository.save(_workspace));
+        }
+        else{
+            return new WorkspaceResponseDto(workspace);
+        }
     }
 
     // 워크스페이스 삭제

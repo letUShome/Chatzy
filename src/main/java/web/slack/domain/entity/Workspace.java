@@ -25,4 +25,12 @@ public class Workspace {
         this.name = name;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    // 워크스페이스 수정 함수
+    public void update(String name){
+        this.name = name;
+    }
 }

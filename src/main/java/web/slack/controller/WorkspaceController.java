@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import web.slack.controller.dto.WorkspaceRequestDto;
 import web.slack.controller.dto.WorkspaceResponseDto;
+import web.slack.domain.entity.Workspace;
 import web.slack.service.WorkspaceService;
 
 import java.util.List;
@@ -30,7 +31,12 @@ public class WorkspaceController {
         return workspaceService.findById(id);
     }
 
-    @DeleteMapping("{id}")
+    @PostMapping("/{id}")
+    public WorkspaceResponseDto updateWorkspace(@PathVariable String id, @RequestBody Workspace workspace){
+        return workspaceService.updateWorkspace(id, workspace);
+    }
+
+    @DeleteMapping("/{id}")
     public String deleteWorkspace(@PathVariable String id){
         workspaceService.deleteWorkspace(id);
         return id;
