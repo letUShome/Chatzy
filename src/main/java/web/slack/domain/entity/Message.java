@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import web.slack.controller.dto.MessageResponseDTO;
 
 @Getter
 @NoArgsConstructor
@@ -30,5 +31,11 @@ public class Message {
         this.channel = channel;
         this.type = type;
         this.readFlag = false;
+    }
+
+    public MessageResponseDTO toDTO() {
+        return MessageResponseDTO.builder()
+                                .entity(this)
+                                .build();
     }
 }
