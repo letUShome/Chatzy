@@ -20,20 +20,19 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/chat")
 public class MessageController {
     private final MessageService messageService;
     private final SimpMessageSendingOperations template;
 
-    @MessageMapping("/sendMessage")
+    @MessageMapping("/chat/message")
     public void sendMessage(@Payload MessageRequestDTO messageRequestDTO) {
         log.info(messageRequestDTO.getContext());
 
         Message message = messageService.addMessage(messageRequestDTO);
-        template.convertAndSend("/channel/" + message.getChannel(), message.toDTO());
+        template.convertAndSend("/chat/channel/" + messageRequestDTO.getChannelId(), message.toDTO());
     }
 
-    @GetMapping("/channel/{channelId}")
+    @GetMapping("/chat/channel/{channelId}")
     public List<MessageResponseDTO> messageList(@PathVariable String channelId) {
         return messageService.findMessageList(channelId);
     }

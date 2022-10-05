@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import web.slack.domain.entity.Channel;
 import web.slack.domain.entity.ChannelType;
 import web.slack.domain.entity.Member;
-import web.slack.service.ChannelService;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Getter
