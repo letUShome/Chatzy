@@ -13,9 +13,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
+import web.slack.service.RedisService;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
@@ -29,6 +31,7 @@ import java.util.Objects;
 public class JwtTokenProvider {
 
     private final MemberRepository memberRepository;
+    private final RedisService redisService;
 
     @Value("${spring.jwt.secret-key}")
     private String SECRET_KEY;
@@ -69,7 +72,9 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(String memberId){
-        return this.createToken(memberId, refreshTokenValidTime);
+        String refreshToken = createToken(memberId, refreshTokenValidTime);
+        redisService.setValues(memberRepository.findById(memberId).get().getEmail(), refreshToken, Duration.ofMillis(refreshTokenValidTime));
+        return refreshToken;
     }
 
     public Authentication getAuthentication(String token){
