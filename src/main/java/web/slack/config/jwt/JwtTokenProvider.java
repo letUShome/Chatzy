@@ -45,17 +45,9 @@ public class JwtTokenProvider {
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
     }
 
-    public String createToken(String memberId, Long tokenValidTime){
+    public String createToken(String value, Long tokenValidTime){
         // JWT payload에 저장되는 정보단위. user 식별값
-
-
-        Claims claims = Jwts.claims().setSubject(memberId);
-
-
-        if(Objects.equals(tokenValidTime, accessTokenValidTime)){
-            String email = memberRepository.findById(memberId).get().getEmail();
-            claims.setSubject(email);
-        }
+        Claims claims = Jwts.claims().setSubject(value);
 
         Date now = new Date();
 
@@ -68,7 +60,7 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(String memberId){
-        return this.createToken(memberId, accessTokenValidTime);
+        return this.createToken(memberRepository.findById(memberId).get().getEmail(), accessTokenValidTime);
     }
 
     public String createRefreshToken(String memberId){
@@ -78,17 +70,22 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token){
-        Member member = memberRepository.findById(getMemberId(token)).get();
+        Member member = memberRepository.findById(getMemberInfo(token)).get();
         return new UsernamePasswordAuthenticationToken(member, "");
     }
 
-    public String getMemberId(String token){
+    public String getMemberInfo(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request){
+    public String resolveAccessToken(HttpServletRequest request){
         return request.getHeader("Authorization");
     }
+
+    public String resolveRefreshToken(HttpServletRequest request){
+        return request.getHeader("refresh-token");
+    }
+
 
     public boolean validateToken(String jwtToken){
         try {
