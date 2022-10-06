@@ -3,6 +3,7 @@ package web.slack.controller.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
 import web.slack.domain.entity.MessageType;
 
@@ -13,7 +14,7 @@ public class MessageResponseDTO {
 
     private String channelId;
 
-    private String sender;
+    private Member sender;
 
     private String context;
 

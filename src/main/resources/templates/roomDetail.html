@@ -50,14 +50,13 @@
   var vm = new Vue({
     el: '#app',
     data: {
-      messageId: '',
       roomId: '',
       room: [],
       sender: '',
+      senderName: '',
       message: '',
       messages: [],
-      type: '',
-      readFlag: false
+      prevMessages: []
     },
     created() {
       this.roomId = localStorage.getItem('wschat.roomId');
@@ -66,14 +65,20 @@
     },
     methods: {
       findRoom: function() {
-        axios.get('/channels/'+this.roomId).then(response => { this.room = response.data; });
+        axios.get('/channels/'+this.roomId).then(response => { this.room = response.data;});
+        this.senderName = this.room.sender.name;
+        this.findMessages();
       },
       sendMessage: function() {
-        ws.send("/pub/chat/message", {}, JSON.stringify({channelId:this.roomId, sender:this.sender, context:this.message, type:'ALARM'}));
+        ws.send("/pub/chat/message", {}, JSON.stringify({channel_id:this.roomId, sender:this.sender, context:this.message, type:'TALK'}));
         this.message = '';
       },
       recvMessage: function(recv) {
-        this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.context})
+        this.messages.unshift({"type":recv.type,"sender":recv.type=='ALARM'?'[알림] ' + recv.sender.name + "님 " :recv.sender.name,"message":recv.context})
+      },
+      findMessages: function() {
+        axios.get('/chat/channel/' +this.roomId).then(response => {this.prevMessages = response.data});
+        this.messages.unshift({"type":this.prevMessages[0].type,"sender":this.prevMessages[0].sender.name,"message":this.prevMessages[0].context});
       }
     }
   });

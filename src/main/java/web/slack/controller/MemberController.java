@@ -1,10 +1,7 @@
 package web.slack.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.service.CustomOauth2UserService;
 
@@ -25,6 +22,4 @@ public class MemberController {
         response.setHeader("Authorization", jwtTokenProvider.createToken(memberId));
         return "Response with header using HttpServletResponse";
     }
-
-
 }

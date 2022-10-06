@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
 import web.slack.domain.entity.MessageType;
 
@@ -30,9 +31,9 @@ public class MessageRequestDTO {
         this.sender = sender;
     }
 
-    public Message toEntity() {
+    public Message toEntity(Member member) {
         return Message.builder()
-                    .sender(this.getSender())
+                    .sender(member)
                     .channel(this.getChannelId())
                     .context(this.getContext())
                     .type(this.getType())

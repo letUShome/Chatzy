@@ -30,10 +30,4 @@ public class ChannelController {
     public ChannelDTO channelDetails(@PathVariable String channelId) {
         return channelService.findChannel(channelId);
     }
-
-    @GetMapping("/room")
-    public String channelEnter(Model model, String channelId) {
-        model.addAttribute("room", channelService.findChannel(channelId));
-        return "channel";
-    }
 }

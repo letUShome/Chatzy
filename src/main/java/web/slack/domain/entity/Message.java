@@ -16,7 +16,7 @@ public class Message {
 
     private String context;
 
-    private String sender;
+    private Member sender;
 
     private String channel;
 
@@ -25,7 +25,7 @@ public class Message {
     private Boolean readFlag;
 
     @Builder
-    public Message(String context, String sender, String channel, MessageType type) {
+    public Message(String context, Member sender, String channel, MessageType type) {
         this.context = context;
         this.sender = sender;
         this.channel = channel;
