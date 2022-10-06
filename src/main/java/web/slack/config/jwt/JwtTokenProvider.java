@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 토큰 생성, 검증
@@ -43,7 +44,16 @@ public class JwtTokenProvider {
 
     public String createToken(String memberId, Long tokenValidTime){
         // JWT payload에 저장되는 정보단위. user 식별값
+
+
         Claims claims = Jwts.claims().setSubject(memberId);
+
+
+        if(Objects.equals(tokenValidTime, accessTokenValidTime)){
+            String email = memberRepository.findById(memberId).get().getEmail();
+            claims.setSubject(email);
+        }
+
         Date now = new Date();
 
         return Jwts.builder()
