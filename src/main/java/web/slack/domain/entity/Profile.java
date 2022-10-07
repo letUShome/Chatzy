@@ -38,9 +38,4 @@ public class Profile {
 
     public void setEmail(String email){ this.email = email; }
 
-    // 프로필 수정 함수
-    public void update(String name){
-        this.name = name;
-    }
-
 }
