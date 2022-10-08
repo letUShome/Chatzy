@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.slack.controller.dto.WorkspaceRequestDto;
 import web.slack.controller.dto.WorkspaceResponseDto;
+import web.slack.domain.entity.Profile;
 import web.slack.domain.entity.Workspace;
+import web.slack.domain.repository.ProfileRepository;
 import web.slack.domain.repository.WorkspaceRepository;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class WorkspaceService {
     public WorkspaceResponseDto saveWorkspace(WorkspaceRequestDto workspaceRequestDto){
         Workspace workspace = Workspace.builder()
                 .name(workspaceRequestDto.getName())
+                .teammate(workspaceRequestDto.getTeammate())
                 .build();
 
         workspaceRepository.save(workspace);
@@ -66,6 +69,7 @@ public class WorkspaceService {
         if(workspaceData.isPresent()) {
             Workspace _workspace = workspaceData.get();
             _workspace.setName(workspace.getName());
+            _workspace.setTeammate(workspace.getTeammate());
             return new WorkspaceResponseDto(workspaceRepository.save(_workspace));
         }
         else{
@@ -79,5 +83,13 @@ public class WorkspaceService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 워크스페이스가 없습니다. id = " + id));
         workspaceRepository.delete(workspace);
     }
+
+//    public List<String> createIdList(List<Profile> profiles){
+//        List<String> profileIds = new ArrayList<>();
+//        for(Profile profile : profiles){
+//            String profileId = profile.getId();
+//        }
+//        return profileIds;
+//    }
 
 }

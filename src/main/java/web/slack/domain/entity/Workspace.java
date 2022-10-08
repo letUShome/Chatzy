@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @Document(collection = "Workspace")
@@ -19,14 +21,21 @@ public class Workspace {
 
     private String name;
 
+    private List<Profile> teammate;
+
     @Builder
-    public Workspace (String name, String id){
+    public Workspace (String id, String name, List<Profile> teammate){
         this.id = id;
         this.name = name;
+        this.teammate = teammate;
     }
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setTeammate(List<Profile> profileIds){
+        this.teammate = profileIds;
     }
 
 }
