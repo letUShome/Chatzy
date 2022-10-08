@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import java.util.Objects;
  * 필터 클래스에서 사전 검증을 거친다* *
  */
 @RequiredArgsConstructor
+@Slf4j
 @Component
 public class JwtTokenProvider {
 
@@ -70,7 +72,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token){
-        Member member = memberRepository.findById(getMemberInfo(token)).get();
+        Member member = memberRepository.findByEmail(getMemberInfo(token)).get();
         return new UsernamePasswordAuthenticationToken(member, "");
     }
 
@@ -90,7 +92,9 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken){
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
+            log.info(claims.toString());
+            log.info(claims.getBody().getExpiration().toString());
+            return claims.getBody().getExpiration().before(new Date());
         }
         catch (Exception e){
             return false;

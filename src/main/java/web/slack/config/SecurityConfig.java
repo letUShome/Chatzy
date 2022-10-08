@@ -38,7 +38,7 @@ public class SecurityConfig{
                         "/js/**", "/h2-console/**").permitAll() // 우선 전체허용
                 .antMatchers("/members").permitAll()
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)

@@ -5,11 +5,10 @@ import com.nimbusds.oauth2.sdk.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import web.slack.config.annotation.AuthMember;
 import web.slack.config.jwt.JwtTokenProvider;
+import web.slack.controller.dto.MemberResponseDto;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.service.CustomOauth2UserService;
@@ -30,6 +29,11 @@ public class MemberController {
     private final CustomOauth2UserService oauth2UserService;
     private final MemberRepository memberRepository;
     private final RedisService redisService;
+
+    @GetMapping("/current")
+    public MemberResponseDto loadLoginUser(@AuthMember Member member){
+        return new MemberResponseDto(member);
+    }
 
     @PostMapping("/postman")
     public String postmanTest(@RequestBody Map<String, Object> attribute, HttpServletResponse response){
