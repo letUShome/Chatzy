@@ -3,12 +3,20 @@ package web.slack.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.slack.config.annotation.AuthMember;
 import web.slack.config.jwt.JwtTokenProvider;
-import web.slack.controller.dto.MemberRequestDto;
+import web.slack.controller.dto.LogInRequestDto;
+import web.slack.controller.dto.SignUpRequestDto;
 import web.slack.controller.dto.MemberResponseDto;
 import web.slack.domain.entity.Member;
+import web.slack.domain.entity.Message;
+import web.slack.domain.entity.ResponseMessage;
+import web.slack.domain.entity.StatusEnum;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.service.CustomOauth2UserService;
 import web.slack.service.MemberService;
@@ -37,8 +45,27 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String createMember(@RequestBody MemberRequestDto memberRequestDto){
-        return memberService.signUp(memberRequestDto);
+    public String createMember(@RequestBody SignUpRequestDto signUpRequestDto){
+        return memberService.signUp(signUpRequestDto);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Message> login(@RequestBody LogInRequestDto logInRequestDto){
+        Message message = new Message();
+        if(!memberService.isCorrectMember(logInRequestDto)){
+            // message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setMessage(ResponseMessage.LOGIN_FAIL);
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+        else{
+            message.setStatus(StatusEnum.OK);
+            message.setMessage(ResponseMessage.LOGIN_SUCCESS);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            String memberId = memberRepository.findByEmail(logInRequestDto.getEmail()).get().getId();
+            httpHeaders.set("Authorization", jwtTokenProvider.createAccessToken(memberId));
+            httpHeaders.set("refresh-token", jwtTokenProvider.createRefreshToken(memberId));
+            return new ResponseEntity<>(message, httpHeaders, HttpStatus.OK);
+        }
     }
 
     @PostMapping("/postman")

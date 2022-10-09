@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MemberRequestDto {
+public class SignUpRequestDto {
     String name;
     String email;
     String password;
@@ -18,19 +18,8 @@ public class MemberRequestDto {
      * @param password
      */
     @Builder
-    public MemberRequestDto(String name, String email, String password) {
+    public SignUpRequestDto(String name, String email, String password) {
         this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    /**
-     * Log-in Request*
-     * @param email
-     * @param password
-     */
-    @Builder
-    public MemberRequestDto(String email, String password) {
         this.email = email;
         this.password = password;
     }
