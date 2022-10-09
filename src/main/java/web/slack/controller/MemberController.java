@@ -1,17 +1,17 @@
 package web.slack.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nimbusds.oauth2.sdk.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import web.slack.config.annotation.AuthMember;
 import web.slack.config.jwt.JwtTokenProvider;
+import web.slack.controller.dto.MemberRequestDto;
 import web.slack.controller.dto.MemberResponseDto;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.service.CustomOauth2UserService;
+import web.slack.service.MemberService;
 import web.slack.service.RedisService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,10 +29,16 @@ public class MemberController {
     private final CustomOauth2UserService oauth2UserService;
     private final MemberRepository memberRepository;
     private final RedisService redisService;
+    private final MemberService memberService;
 
     @GetMapping("/current")
     public MemberResponseDto loadLoginUser(@AuthMember Member member){
         return new MemberResponseDto(member);
+    }
+
+    @PostMapping("/signup")
+    public String createMember(@RequestBody MemberRequestDto memberRequestDto){
+        return memberService.signUp(memberRequestDto);
     }
 
     @PostMapping("/postman")

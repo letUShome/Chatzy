@@ -39,7 +39,7 @@ public class OauthAttributes {
         return Member.builder()
                 .name(name)
                 .email(email)
-                .profile(profile)
+                .image(profile)
                 .role(Role.USER)
                 .build();
     }
