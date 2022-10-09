@@ -10,14 +10,14 @@ public class ProfileResponseDto {
     private String id;
     private String name;
     private String nickname;
-    private String email;
+    private String role;
 
     @Builder
     public ProfileResponseDto(Profile entity){
         this.id = entity.getId();
         this.name = entity.getName();
         this.nickname = entity.getNickname();
-        this.email = entity.getEmail();
+        this.role = entity.getRole();
     }
 
 }

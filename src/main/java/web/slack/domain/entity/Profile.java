@@ -18,14 +18,14 @@ public class Profile {
 
     private String nickname;
 
-    private String email;
+    private String role;
 
     @Builder
-    public Profile(String id, String name, String nickname, String email){
+    public Profile(String id, String name, String nickname, String role){
         this.id = id;
         this.name = name;
         this.nickname = nickname;
-        this.email = email;
+        this.role = role;
     }
 
     public void setName(String name){
@@ -36,6 +36,6 @@ public class Profile {
         this.nickname = nickname;
     }
 
-    public void setEmail(String email){ this.email = email; }
+    public void setRole(String role){ this.role = role; }
 
 }

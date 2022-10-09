@@ -26,7 +26,7 @@ public class ProfileService {
         Profile profile = Profile.builder()
                 .name(profileRequestDto.getName())
                 .nickname(profileRequestDto.getNickname())
-                .email(profileRequestDto.getEmail())
+                .role(profileRequestDto.getRole())
                 .build();
 
         profileRepository.save(profile);
@@ -63,7 +63,7 @@ public class ProfileService {
             Profile _profile = profileData.get();
             _profile.setName(profile.getName());
             _profile.setNickname(profile.getNickname());
-            _profile.setEmail(profile.getEmail());
+            _profile.setRole(profile.getRole());
             return new ProfileResponseDto(profileRepository.save(_profile));
         }
         else{
