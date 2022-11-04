@@ -14,6 +14,8 @@ cache:
 script: "./gradlew clean build"
 
 before_deploy:
+  - openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv -in application.properties.enc -out application.properties -d
+  - openssl aes-256-cbc -K $encrypted_b846c1a3db1c_key -iv $encrypted_b846c1a3db1c_iv -in application-oauth.properties.enc -out application-oauth.properties -d
   - zip -r slackclone
   - mkdir -p deploy
   - mv slackclone.zip deploy/slackclone.zip
