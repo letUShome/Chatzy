@@ -21,9 +21,9 @@ before_install:
 script: "./gradlew clean build"
 
 before_deploy:
-  - zip -r slackclone
+  - zip -r slack *
   - mkdir -p deploy
-  - mv slackclone.zip deploy/slackclone.zip
+  - mv slack.zip deploy/slack.zip
 
 deploy:
   - provider: s3
