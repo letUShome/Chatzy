@@ -19,18 +19,18 @@ before_deploy:
 	- mv slackclone.zip deploy/slackclone.zip
 
 deploy:
-	- provider: s3
-	access_key_id: $AWS_ACCESS_KEY
-	secret_access_key: $AWS_SECRET_ACCESS_KEY
-	bucket: slackclonetravis
-	region: ap-northeast-2
-	skip_cleanup: true
-  acl: private
-  local_dir: deploy
-  wait-until-deployed: true
-  on:
-    branch: main
-
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: slackclonetravis
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+    on:
+      branch: main
+      
 notifications:
   email:
     recipients:
