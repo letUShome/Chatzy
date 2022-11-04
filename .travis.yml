@@ -35,4 +35,4 @@ notifications:
   email:
     recipients:
       - dev.sunnylee@gmail.com
-			- efubslack@gmail.com
+      - efubslack@gmail.com
