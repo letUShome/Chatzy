@@ -14,9 +14,9 @@ cache:
 script: "./gradlew clean build"
 
 before_deploy:
-	- zip -r slackclone
-	- mkdir -p deploy
-	- mv slackclone.zip deploy/slackclone.zip
+  - zip -r slackclone
+  - mkdir -p deploy
+  - mv slackclone.zip deploy/slackclone.zip
 
 deploy:
   - provider: s3
@@ -30,7 +30,7 @@ deploy:
     wait-until-deployed: true
     on:
       branch: main
-      
+
 notifications:
   email:
     recipients:
