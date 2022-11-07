@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface ChannelRepository extends MongoRepository<Channel, String> {
     List<Channel> findChannelsByWorkspaceId(String workspaceId);
+    void deleteChannelsByWorkspaceId(String workspaceId);
 }

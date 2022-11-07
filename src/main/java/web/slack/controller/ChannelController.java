@@ -30,4 +30,9 @@ public class ChannelController {
     public ChannelDTO channelDetails(@PathVariable String channelId) {
         return channelService.findChannel(channelId);
     }
+
+    @DeleteMapping()
+    public String channelRemove() {
+        return channelService.removeChannel();
+    }
 }

@@ -77,4 +77,14 @@ public class ChannelService {
         }
         return memberIds;
     }
+
+    public String removeChannel() {
+        try{
+            channelRepository.deleteChannelsByWorkspaceId("id");
+            return "success";
+        }
+        catch(Exception e) {
+            return "failed: " +e.getMessage();
+        }
+    }
 }

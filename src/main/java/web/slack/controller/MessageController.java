@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.slack.controller.dto.ChannelDTO;
 import web.slack.controller.dto.MessageRequestDTO;
 import web.slack.controller.dto.MessageResponseDTO;
@@ -50,5 +47,10 @@ public class MessageController {
     @GetMapping("/channels/{channelId}/message")
     public List<MessageResponseDTO> messageList(@PathVariable String channelId) {
         return messageService.findMessageList(channelId);
+    }
+
+    @DeleteMapping("/channels/{channelId}/message")
+    public String messageRemove(@PathVariable String channelId) {
+        return messageService.removeMessage(channelId);
     }
 }
