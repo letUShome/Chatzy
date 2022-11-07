@@ -65,9 +65,9 @@ public class JwtTokenProvider {
         return this.createToken(memberRepository.findById(memberId).get().getEmail(), accessTokenValidTime);
     }
 
-    public String createRefreshToken(String memberId){
-        String refreshToken = createToken(memberId, refreshTokenValidTime);
-        redisService.setValues(memberRepository.findById(memberId).get().getEmail(), refreshToken, Duration.ofMillis(refreshTokenValidTime));
+    public String createRefreshToken(String email){
+        String refreshToken = createToken(email, refreshTokenValidTime);
+        redisService.setValues(email, refreshToken, Duration.ofMillis(refreshTokenValidTime));
         return refreshToken;
     }
 

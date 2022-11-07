@@ -63,7 +63,7 @@ public class MemberController {
             HttpHeaders httpHeaders = new HttpHeaders();
             String memberId = memberRepository.findByEmail(logInRequestDto.getEmail()).get().getId();
             httpHeaders.set("Authorization", jwtTokenProvider.createAccessToken(memberId));
-            httpHeaders.set("refresh-token", jwtTokenProvider.createRefreshToken(memberId));
+            httpHeaders.set("refresh-token", jwtTokenProvider.createRefreshToken(logInRequestDto.getEmail()));
             return new ResponseEntity<>(message, httpHeaders, HttpStatus.OK);
         }
     }
