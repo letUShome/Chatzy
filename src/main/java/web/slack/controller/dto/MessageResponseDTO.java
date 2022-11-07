@@ -7,6 +7,8 @@ import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
 import web.slack.domain.entity.MessageType;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class MessageResponseDTO {
@@ -20,6 +22,8 @@ public class MessageResponseDTO {
 
     private MessageType type;
 
+    private String date;
+
     private Boolean readFlag;
 
     @Builder
@@ -29,6 +33,7 @@ public class MessageResponseDTO {
         this.sender = entity.getSender();
         this.context = entity.getContext();
         this.type = entity.getType();
+        this.date = entity.getDate();
         this.readFlag = entity.getReadFlag();
     }
 }
