@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import web.slack.controller.dto.ChannelDTO;
 import web.slack.controller.dto.MessageRequestDTO;
 import web.slack.controller.dto.MessageResponseDTO;
 import web.slack.domain.entity.Message;
+import web.slack.service.ChannelService;
 import web.slack.service.MessageService;
 
 import java.util.List;
@@ -22,17 +24,30 @@ import java.util.List;
 @Slf4j
 public class MessageController {
     private final MessageService messageService;
+    private final ChannelService channelService;
     private final SimpMessageSendingOperations template;
 
-    @MessageMapping("/chat/message")
+    @MessageMapping("/message")
     public void sendMessage(@Payload MessageRequestDTO messageRequestDTO) {
-        log.info(messageRequestDTO.getContext());
+        String sender = messageRequestDTO.getSender();
+        ChannelDTO channelDTO = channelService.findChannel(messageRequestDTO.getChannelId());
 
-        Message message = messageService.addMessage(messageRequestDTO);
-        template.convertAndSend("/chat/channel/" + messageRequestDTO.getChannelId(), message.toDTO());
+        if(channelDTO.getType().getValue().equals("GROUP")) {
+            Message message = messageService.addMessage(messageRequestDTO);
+            template.convertAndSend("/topic/channel/" + messageRequestDTO.getChannelId(), message.toDTO());
+        }
+        else {
+            List<String> teammates = channelDTO.getTeammate();
+            for(String teammate : teammates) {
+                if(teammate.equals(sender)) {
+                    Message message = messageService.addMessage(messageRequestDTO);
+                    template.convertAndSend("/topic/direct/" + messageRequestDTO.getChannelId(), message.toDTO());
+                }
+            }
+        }
     }
 
-    @GetMapping("/chat/channel/{channelId}")
+    @GetMapping("/channels/{channelId}/message")
     public List<MessageResponseDTO> messageList(@PathVariable String channelId) {
         return messageService.findMessageList(channelId);
     }

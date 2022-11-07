@@ -17,16 +17,16 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/chat")
+@RequestMapping("/room")
 public class ChatController {
     private final ChannelService channelService;
 
-    @GetMapping("/room")
+    @GetMapping()
     public String rooms(Model model) {
         return "room";
     }
 
-    @GetMapping("/room/enter/{channelId}")
+    @GetMapping("/enter/{channelId}")
     public String roomDetail(Model model, @PathVariable String channelId) {
         model.addAttribute("channelId", channelId);
         return "roomDetail";
