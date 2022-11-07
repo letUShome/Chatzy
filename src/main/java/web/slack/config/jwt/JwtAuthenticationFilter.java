@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
+import web.slack.domain.repository.MemberRepository;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,13 +20,15 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 헤더에서 토큰을 받아온다
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+        String accessToken = jwtTokenProvider.resolveAccessToken((HttpServletRequest) request);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken((HttpServletRequest) request);
 
         // 유효한 토큰인지 확인
-        if(token != null && jwtTokenProvider.validateToken(token)){
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if(accessToken != null && jwtTokenProvider.validateToken(accessToken)){
+            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
         chain.doFilter(request, response);
     }
 }
