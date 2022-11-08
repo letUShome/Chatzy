@@ -55,6 +55,7 @@ public class SecurityConfig{
         return httpSecurity.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class).build();
     }
 
+
     public class CustomDsl extends AbstractHttpConfigurer<CustomDsl, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder){
