@@ -47,8 +47,8 @@ deploy:
     bucket: slackclonetravis # S3 버킷
     key: slack.zip # 빌드 파일을 압축해서 전달
     bundle_type: zip
-    application: slack-codedeploy # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
-    deployment_group: slack-clone-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    application: slackdeploy # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: skacj # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
     region: ap-northeast-2
     wait-until-deployed: true
     on:
