@@ -11,11 +11,9 @@ import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     private String makeRedirectUrl(){
-        return UriComponentsBuilder.fromUriString("http://localhost:3000/").build().toUriString();
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/").build().toUriString();
     }
 
     private Member findMemberId(OAuth2User oAuth2User){
