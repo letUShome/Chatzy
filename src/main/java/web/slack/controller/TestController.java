@@ -18,7 +18,7 @@ public class TestController {
 
     @GetMapping("/")
     public String versionTest(){
-        return "정상적으로 배포되었습니다 : 202211111 20:30";
+        return "정상적으로 배포되었습니다 : 202211111 21:28";
     }
 
     @GetMapping("/api/v1/test")
