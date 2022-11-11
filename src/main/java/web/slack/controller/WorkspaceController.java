@@ -2,12 +2,15 @@ package web.slack.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import web.slack.controller.dto.MailDto;
 import web.slack.controller.dto.WorkspaceRequestDto;
 import web.slack.controller.dto.WorkspaceResponseDto;
 import web.slack.domain.entity.Workspace;
+import web.slack.service.CustomOauth2UserService;
 import web.slack.service.WorkspaceService;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,6 +18,7 @@ import java.util.List;
 public class WorkspaceController {
 
     private final WorkspaceService workspaceService;
+    private final CustomOauth2UserService oauth2UserService;
 
     @PostMapping()
     public WorkspaceResponseDto saveWorkspace(@RequestBody WorkspaceRequestDto workspaceRequestDto){
@@ -42,5 +46,19 @@ public class WorkspaceController {
         return id;
     }
 
+    @PostMapping("/{id}/invite")
+    public String sendMail(@PathVariable String id,String email){
+
+        String title = "[워크스페이스 초대]";
+        String msg = "안녕하세요. 해당 워크스페이스 링크로 접속하여 워크스페이스에 가입해주세요";
+        MailDto mailDto = new MailDto(email, title, msg);
+        return workspaceService.mailSend(id, email, mailDto);
+
+    }
+
+    @GetMapping("/{id}/enter")
+    public String confirmMail(@PathVariable String email, @RequestParam String mailKey) {
+        return workspaceService.mailConfirm(email, mailKey);
+    }
 
 }

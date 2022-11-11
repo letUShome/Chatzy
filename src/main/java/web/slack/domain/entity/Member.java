@@ -21,6 +21,8 @@ public class Member {
 
     private Role role;
 
+    private String authKey;
+
     @Builder
     public Member(String id, String name, String email, String profile, Role role) {
         this.id = id;
@@ -29,4 +31,9 @@ public class Member {
         this.profile = profile;
         this.role = role;
     }
+
+    public void updateAuthKey(String authKey) {
+        this.authKey = authKey;
+    }
+
 }

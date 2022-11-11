@@ -1,30 +1,48 @@
 package web.slack.service;
 
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.slack.controller.dto.MailDto;
+import web.slack.controller.dto.OauthAttributes;
 import web.slack.controller.dto.WorkspaceRequestDto;
 import web.slack.controller.dto.WorkspaceResponseDto;
-import web.slack.domain.entity.Profile;
+import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Workspace;
-import web.slack.domain.repository.ProfileRepository;
+import web.slack.domain.repository.MemberInviteRepository;
 import web.slack.domain.repository.WorkspaceRepository;
+import web.slack.domain.repository.MemberRepository;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class WorkspaceService {
 
     private final WorkspaceRepository workspaceRepository;
+    private JavaMailSender mailSender;
+    private static final String FROM_ADDRESS = "efubslack@gmail.com";
 
-    public WorkspaceService(WorkspaceRepository workspaceRepository) {
+
+    public WorkspaceService(WorkspaceRepository workspaceRepository, MemberRepository memberRepository, MemberInviteRepository memberInviteRepository) {
         this.workspaceRepository = workspaceRepository;
+        this.memberRepository = memberRepository;
+        this.memberInviteRepository = memberInviteRepository;
     }
 
     public WorkspaceResponseDto buildResponseDto(Workspace entity) {
         return new WorkspaceResponseDto(entity);
     }
+
+    private final MemberRepository memberRepository;
+
+    private final MemberInviteRepository memberInviteRepository;
+
+
 
     // 워크스페이스 생성
     @Transactional
@@ -84,12 +102,62 @@ public class WorkspaceService {
         workspaceRepository.delete(workspace);
     }
 
-//    public List<String> createIdList(List<Profile> profiles){
-//        List<String> profileIds = new ArrayList<>();
-//        for(Profile profile : profiles){
-//            String profileId = profile.getId();
-//        }
-//        return profileIds;
-//    }
+    // 워크스페이스 내 초대 메일 전송
+    public String mailSend(String workspaceId, String email, MailDto mailDto){
+        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
+        try{
+            String auth = getAuthCode(6);
+            MailHandler mailHandler = new MailHandler(mailSender);
+
+            // 받는 사람
+            mailHandler.setTo(email);
+            // 보내는 사람
+            mailHandler.setFrom(FROM_ADDRESS);
+            // 제목
+            mailHandler.setSubject(mailDto.getTitle());
+            // 내용
+            String htmlContent = "<p>" + mailDto.getMessage() +"</p>" +
+                    "<p><a href='https://localhost:8080/workspace/" + workspaceId + "/invite?mailKey=" + auth + "'>여기를 클릭하세요</a></p>";
+            mailHandler.setText(htmlContent, true);
+
+            mailHandler.send();
+            entity.updateAuthKey(auth); // DB에 유저의 authkey 저장
+
+            memberInviteRepository.save(entity);
+
+            return "success";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return "error: " + e.getMessage();
+        }
+    }
+
+    public String mailConfirm(String email, String auth){
+        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
+        if (entity==null) {
+            return "없는 유저입니다.";
+        }
+        String realAuth = entity.getAuthKey();
+        if(realAuth.equals(auth)) {
+            entity.updateAuthKey(null);
+            return "email : "+email;
+        } else {
+            return "something went wrong!";
+        }
+
+
+    }
+
+    private String getAuthCode(int size) {
+        Random random = new Random();
+        StringBuffer buffer = new StringBuffer();
+        int num = 0;
+        while(buffer.length() < size) {
+            num = random.nextInt(10);
+            buffer.append(num);
+        }
+        return buffer.toString();
+    }
 
 }
