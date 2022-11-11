@@ -33,7 +33,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     private String makeRedirectUrl(){
-        return UriComponentsBuilder.fromUriString("http://localhost:3090/").build().toUriString();
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/workspace/sleact/channel/일반").build().toUriString();
     }
 
     private Member findMemberId(OAuth2User oAuth2User){
