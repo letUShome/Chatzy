@@ -17,18 +17,21 @@ public class Member {
 
     private String email;
 
-    private String profile;
+    private String password;
+
+    private String image;
 
     private Role role;
 
     private String authKey;
 
     @Builder
-    public Member(String id, String name, String email, String profile, Role role) {
+    public Member(String id, String name, String email, String image, String password, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.profile = profile;
+        this.password = password;
+        this.image = image;
         this.role = role;
     }
 

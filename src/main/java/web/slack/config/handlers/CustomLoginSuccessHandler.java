@@ -14,7 +14,6 @@ import web.slack.domain.repository.MemberRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -25,19 +24,21 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String token = jwtTokenProvider.createToken(findMemberId(oAuth2User));
+        Member member = findMemberId(oAuth2User);
+        String token = jwtTokenProvider.createAccessToken(member.getId());
+        String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2User.getAttribute("email"));
         response.setHeader("Authorization", token);
+        response.setHeader("refresh-token", refreshToken);
         getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());
     }
 
     private String makeRedirectUrl(){
-        return UriComponentsBuilder.fromUriString("http://localhost:3000/").build().toUriString();
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/").build().toUriString();
     }
 
-    private String findMemberId(OAuth2User oAuth2User){
+    private Member findMemberId(OAuth2User oAuth2User){
         String email = oAuth2User.getAttribute("email");
-        Member member = memberRepository.findByEmail(email).get();
-        return member.getId();
+        return memberRepository.findByEmail(email).get();
     }
 
 }
