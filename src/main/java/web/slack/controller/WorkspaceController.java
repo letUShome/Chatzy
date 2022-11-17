@@ -1,6 +1,7 @@
 package web.slack.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import web.slack.controller.dto.MailDto;
 import web.slack.controller.dto.WorkspaceRequestDto;
@@ -15,6 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/workspace")
+@Slf4j
 public class WorkspaceController {
 
     private final WorkspaceService workspaceService;
@@ -47,8 +49,8 @@ public class WorkspaceController {
     }
 
     @PostMapping("/{id}/invite")
-    public String sendMail(@PathVariable String id,String email){
-
+    public String sendMail(@PathVariable String id,@RequestBody String email){
+        log.info("이메일: " + email);
         String title = "[워크스페이스 초대]";
         String msg = "안녕하세요. 해당 워크스페이스 링크로 접속하여 워크스페이스에 가입해주세요";
         MailDto mailDto = new MailDto(email, title, msg);
