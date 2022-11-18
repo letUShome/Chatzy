@@ -22,7 +22,7 @@ public class Message {
 
     private Member sender;
 
-    private String channel;
+    private String chatroom;
 
     private MessageType type;
 
@@ -31,10 +31,10 @@ public class Message {
     private Boolean readFlag;
 
     @Builder
-    public Message(String context, Member sender, String channel, MessageType type) {
+    public Message(String context, Member sender, String chatroom, MessageType type) {
         this.context = context;
         this.sender = sender;
-        this.channel = channel;
+        this.chatroom = chatroom;
         this.type = type;
         this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a HH:mm"));;
         this.readFlag = false;

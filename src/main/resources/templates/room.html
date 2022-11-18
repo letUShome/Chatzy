@@ -50,7 +50,7 @@
         },
         methods: {
             findAllRoom: function() {
-                axios.get('/channels/').then(response => { this.chatrooms = response.data;});
+                axios.get('/chatrooms/').then(response => { this.chatrooms = response.data;});
 
             },
             createRoom: function() {
@@ -60,7 +60,7 @@
                 } else {
                     var params = new URLSearchParams();
                     params.append("name",this.room_name);
-                    axios.post('/channels', params)
+                    axios.post('/chatrooms', params)
                         .then(
                             response => {
                                 alert(response.data.roomName+"방 개설에 성공하였습니다.")
@@ -76,7 +76,7 @@
                 if(sender !== "") {
                     localStorage.setItem('wschat.sender',sender);
                     localStorage.setItem('wschat.roomId',roomId);
-                    location.href="/room/enter/"+roomId;
+                    location.href="/ws/enter/"+roomId;
                 }
             }
         }

@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MessageRequestDTO {
 
-    @JsonProperty("channel_id")
-    private String channelId;
+    @JsonProperty("chatroom_id")
+    private String chatroomId;
 
     private String sender;
 
@@ -26,7 +26,7 @@ public class MessageRequestDTO {
     @Builder
     public MessageRequestDTO(String type, String channelId, String sender, String context) {
         this.type = MessageType.valueOf(type);
-        this.channelId = channelId;
+        this.chatroomId = channelId;
         this.context = context;
         this.sender = sender;
     }
@@ -34,7 +34,7 @@ public class MessageRequestDTO {
     public Message toEntity(Member member) {
         return Message.builder()
                     .sender(member)
-                    .channel(this.getChannelId())
+                    .chatroom(this.getChatroomId())
                     .context(this.getContext())
                     .type(this.getType())
                     .build();

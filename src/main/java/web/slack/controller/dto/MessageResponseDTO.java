@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class MessageResponseDTO {
     private String id;
 
-    private String channelId;
+    private String chatroomId;
 
     private Member sender;
 
@@ -29,7 +29,7 @@ public class MessageResponseDTO {
     @Builder
     public MessageResponseDTO(Message entity) {
         this.id = entity.getId();
-        this.channelId = entity.getChannel();
+        this.chatroomId = entity.getChatroom();
         this.sender = entity.getSender();
         this.context = entity.getContext();
         this.type = entity.getType();

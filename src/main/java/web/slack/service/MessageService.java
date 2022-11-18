@@ -6,7 +6,6 @@ import web.slack.controller.dto.MessageRequestDTO;
 import web.slack.controller.dto.MessageResponseDTO;
 import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
-import web.slack.domain.repository.ChannelRepository;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.domain.repository.MessageRepository;
 
@@ -19,8 +18,8 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
 
-    public List<MessageResponseDTO> findMessageList(String channelId) {
-        List<Message> messages = messageRepository.findAllByChannelOrderByDate(channelId);
+    public List<MessageResponseDTO> findMessageList(String chatroomId) {
+        List<Message> messages = messageRepository.findAllByChatroomOrderByDate(chatroomId);
         List<MessageResponseDTO> messageResponseDTOS = new ArrayList<>();
 
         for(Message message : messages) {
@@ -35,9 +34,9 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
-    public String removeMessage(String channelId) {
+    public String removeMessage(String chatroomId) {
         try{
-            messageRepository.deleteMessagesByChannel(channelId);
+            messageRepository.deleteMessagesByChatroom(chatroomId);
             return "success";
         }
         catch(Exception e) {

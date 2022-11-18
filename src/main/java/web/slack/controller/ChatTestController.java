@@ -7,28 +7,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import web.slack.controller.dto.ChannelDTO;
-import web.slack.domain.entity.Channel;
-import web.slack.service.ChannelService;
-
-import java.util.List;
+import web.slack.service.ChatroomService;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/room")
-public class ChatController {
-    private final ChannelService channelService;
+@RequestMapping("/ws")
+public class ChatTestController {
+    private final ChatroomService chatroomService;
 
     @GetMapping()
     public String rooms(Model model) {
         return "room";
     }
 
-    @GetMapping("/enter/{channelId}")
-    public String roomDetail(Model model, @PathVariable String channelId) {
-        model.addAttribute("channelId", channelId);
+    @GetMapping("/enter/{chatroomId}")
+    public String roomDetail(Model model, @PathVariable String chatroomId) {
+        model.addAttribute("chatroomId", chatroomId);
         return "roomDetail";
     }
 

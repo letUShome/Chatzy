@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ChannelType {
+public enum ChatroomType {
     DM("TYPE_DM", "DM"),
     GROUP("TYPE_GROUP", "GROUP");
 
