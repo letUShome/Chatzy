@@ -102,62 +102,62 @@ public class WorkspaceService {
         workspaceRepository.delete(workspace);
     }
 
-    // 워크스페이스 내 초대 메일 전송
-    public String mailSend(String workspaceId, String email, MailDto mailDto){
-        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
-        try{
-            String auth = getAuthCode(6);
-            MailHandler mailHandler = new MailHandler(mailSender);
-
-            // 받는 사람
-            mailHandler.setTo(email);
-            // 보내는 사람
-            mailHandler.setFrom(FROM_ADDRESS);
-            // 제목
-            mailHandler.setSubject(mailDto.getTitle());
-            // 내용
-            String htmlContent = "<p>" + mailDto.getMessage() +"</p>" +
-                    "<p><a href='https://localhost:8080/workspace/" + workspaceId + "/invite?mailKey=" + auth + "'>여기를 클릭하세요</a></p>";
-            mailHandler.setText(htmlContent, true);
-
-            mailHandler.send();
-            entity.updateAuthKey(auth); // DB에 유저의 authkey 저장
-
-            memberInviteRepository.save(entity);
-
-            return "success";
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return "error: " + e.getMessage();
-        }
-    }
-
-    public String mailConfirm(String email, String auth){
-        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
-        if (entity==null) {
-            return "없는 유저입니다.";
-        }
-        String realAuth = entity.getAuthKey();
-        if(realAuth.equals(auth)) {
-            entity.updateAuthKey(null);
-            return "email : "+email;
-        } else {
-            return "something went wrong!";
-        }
-
-
-    }
-
-    private String getAuthCode(int size) {
-        Random random = new Random();
-        StringBuffer buffer = new StringBuffer();
-        int num = 0;
-        while(buffer.length() < size) {
-            num = random.nextInt(10);
-            buffer.append(num);
-        }
-        return buffer.toString();
-    }
+//    // 워크스페이스 내 초대 메일 전송
+//    public String mailSend(String workspaceId, String email, MailDto mailDto){
+//        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
+//        try{
+//            String auth = getAuthCode(6);
+//            MailHandler mailHandler = new MailHandler(mailSender);
+//
+//            // 받는 사람
+//            mailHandler.setTo(email);
+//            // 보내는 사람
+//            mailHandler.setFrom(FROM_ADDRESS);
+//            // 제목
+//            mailHandler.setSubject(mailDto.getTitle());
+//            // 내용
+//            String htmlContent = "<p>" + mailDto.getMessage() +"</p>" +
+//                    "<p><a href='https://localhost:8080/workspace/" + workspaceId + "/invite?mailKey=" + auth + "'>여기를 클릭하세요</a></p>";
+//            mailHandler.setText(htmlContent, true);
+//
+//            mailHandler.send();
+//            entity.updateAuthKey(auth); // DB에 유저의 authkey 저장
+//
+//            memberInviteRepository.save(entity);
+//
+//            return "success";
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//            return "error: " + e.getMessage();
+//        }
+//    }
+//
+//    public String mailConfirm(String email, String auth){
+//        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
+//        if (entity==null) {
+//            return "없는 유저입니다.";
+//        }
+//        String realAuth = entity.getAuthKey();
+//        if(realAuth.equals(auth)) {
+//            entity.updateAuthKey(null);
+//            return "email : "+email;
+//        } else {
+//            return "something went wrong!";
+//        }
+//
+//
+//    }
+//
+//    private String getAuthCode(int size) {
+//        Random random = new Random();
+//        StringBuffer buffer = new StringBuffer();
+//        int num = 0;
+//        while(buffer.length() < size) {
+//            num = random.nextInt(10);
+//            buffer.append(num);
+//        }
+//        return buffer.toString();
+//    }
 
 }

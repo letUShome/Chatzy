@@ -1,5 +1,6 @@
 package web.slack.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -15,14 +16,14 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 public class MailHandler {
-    
+
+    @Autowired
     private JavaMailSender sender;
     private MimeMessage message;
     private MimeMessageHelper messageHelper;
     
     // 생성자
-    public MailHandler(JavaMailSender jSender) throws
-            MessagingException {
+    public MailHandler(JavaMailSender jSender) throws MessagingException {
         this.sender = jSender;
         message = jSender.createMimeMessage();
         messageHelper = new MimeMessageHelper(message, true, "UTF-8");
