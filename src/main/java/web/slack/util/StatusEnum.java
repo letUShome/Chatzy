@@ -1,12 +1,16 @@
-package web.slack.domain.entity;
+package web.slack.util;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import lombok.Getter;
+
+@Getter
 public enum StatusEnum {
 
     OK(200, "OK"),
     CREATED(201, "CREATED"),
     BAD_REQUEST(400, "BAD_REQUEST"),
     NOT_FOUND(404, "NOT_FOUND"),
-    INTERNAL_SERER_ERROR(500, "INTERNAL_SERVER_ERROR");
+    INTERNAL_SERVER_ERROR(500, "INTERNAL_SERVER_ERROR");
 
     int statusCode;
     String code;

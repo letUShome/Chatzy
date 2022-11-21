@@ -1,62 +1,56 @@
 language: java
 jdk:
-  - openjdk11
-
+- openjdk11
 branches:
   only:
-    - main
-
+  - main
 cache:
   directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.gradle'
-
+  - "$HOME/.m2/repository"
+  - "$HOME/.gradle"
 before_install:
-  - chmod +x gradlew
-  - openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv -in application.properties.enc -out application.properties -d
-  - openssl aes-256-cbc -K $encrypted_b846c1a3db1c_key -iv $encrypted_b846c1a3db1c_iv -in application-oauth.properties.enc -out application-oauth.properties -d
-  - mv application.properties ./src/main/resources
-  - mv application-oauth.properties ./src/main/resources
-
+- openssl aes-256-cbc -K $encrypted_b846c1a3db1c_key -iv $encrypted_b846c1a3db1c_iv
+  -in application-oauth.properties.enc -out application-oauth.properties -d
+- chmod +x gradlew
+- openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv
+  -in application.properties.enc -out application.properties -d
+- mv application.properties ./src/main/resources
+- mv application-oauth.properties ./src/main/resources
 script: "./gradlew clean build"
-
 before_deploy:
-  - mkdir -p before-deploy
-  - cp scripts/*.sh before-deploy/
-  - cp appspec.yml before-deploy/
-  - cp build/libs/*.jar before-deploy/
-  - cd before-deploy && zip -r before-deploy *
-  - cd ../ && mkdir -p deploy
-  - mv before-deploy/before-deploy.zip deploy/slack.zip
-
+- mkdir -p before-deploy
+- cp scripts/*.sh before-deploy/
+- cp appspec.yml before-deploy/
+- cp build/libs/*.jar before-deploy/
+- cd before-deploy && zip -r before-deploy *
+- cd ../ && mkdir -p deploy
+- mv before-deploy/before-deploy.zip deploy/slack.zip
 deploy:
-  - provider: s3
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: slackclonetravis
-    region: ap-northeast-2
-    skip_cleanup: true
-    acl: private
-    local_dir: deploy
-    wait-until-deployed: true
-    on:
-      branch: main
-  - provider: codedeploy
-    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
-    secret_access_key: $AWS_SECRET_ACCESS_KEY # Travis repo settings에 설정된 값
-    bucket: slackclonetravis # S3 버킷
-    key: slack.zip # 빌드 파일을 압축해서 전달
-    bundle_type: zip
-    application: slackdeploy # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
-    deployment_group: skacj # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
-    region: ap-northeast-2
-    wait-until-deployed: true
-    on:
-      all_branches: true
-
-
+- provider: s3
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  bucket: slackclonetravis
+  region: ap-northeast-2
+  skip_cleanup: true
+  acl: private
+  local_dir: deploy
+  wait-until-deployed: true
+  on:
+    branch: main
+- provider: codedeploy
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  bucket: slackclonetravis
+  key: slack.zip
+  bundle_type: zip
+  application: slackdeploy
+  deployment_group: skacj
+  region: ap-northeast-2
+  wait-until-deployed: true
+  on:
+    all_branches: true
 notifications:
   email:
     recipients:
-      - dev.sunnylee@gmail.com
-      - efubslack@gmail.com
+    - dev.sunnylee@gmail.com
+    - efubslack@gmail.com

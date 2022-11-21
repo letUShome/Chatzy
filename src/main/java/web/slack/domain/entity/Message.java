@@ -1,8 +1,8 @@
 package web.slack.domain.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
+import web.slack.util.StatusEnum;
 
 @Data
 @Setter
