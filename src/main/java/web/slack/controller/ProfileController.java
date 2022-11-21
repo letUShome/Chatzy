@@ -24,9 +24,5 @@ public class ProfileController {
         return "profile";
     }
 
-    @PostMapping("/profile")
-    public void execProfile(ProfileDto profileDto) { // 메일 발송
-        profileService.mailSend(mailDto);
-    }
 
 }
