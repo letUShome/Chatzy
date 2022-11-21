@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>프로필 생성</title>
+</head>
+<body>
+<h1>프로필 생성</h1>
+
+<form th:action="@{/profile}" method="post">
+  <input name="nickname" placeholder="이름(닉네임)"> <br>
+  <input name="email" placeholder="email"> <br>
+  <input name="phone" placeholder="전화번호"> <br>
+  <button>프로필 생성</button>
+</form>
+</body>
+</html>

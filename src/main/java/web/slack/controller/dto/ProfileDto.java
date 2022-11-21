@@ -7,10 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MailDto {
-    private String address;
-    private String title;
-    private String message;
-    private String workspaceId;
-
+public class ProfileDto {
+    private String nickname;
+    private String email;
+    private String phone;
 }
