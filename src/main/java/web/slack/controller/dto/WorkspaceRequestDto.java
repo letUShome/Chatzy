@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 import web.slack.domain.entity.Profile;
+import web.slack.domain.entity.Workspace;
 
 import java.util.List;
 
@@ -15,14 +16,27 @@ public class WorkspaceRequestDto {
 
     private String id;
     private String name;
-    private List<Profile> teammate;
+    private List<String> profileIdList;
 
 
     @Builder
-    public WorkspaceRequestDto(String name, String id, List<Profile> teammate){
+    public WorkspaceRequestDto(String name, String id, List<String> profileIdList){
         this.id = id;
         this.name = name;
-        this.teammate = teammate;
+        this.profileIdList = profileIdList;
     }
+
+    public Workspace toEntity(){
+        return Workspace.builder()
+                .name(this.getName())
+                .profileIdList(this.getProfileIdList())
+                .build();
+
+    }
+
+    public void updateWorkspaceDTO(List<String> profileIdList){
+        this.profileIdList = profileIdList;
+    }
+
 
 }

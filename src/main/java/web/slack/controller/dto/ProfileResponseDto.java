@@ -8,16 +8,18 @@ import web.slack.domain.entity.Profile;
 public class ProfileResponseDto {
 
     private String id;
-    private String name;
     private String nickname;
-    private String role;
+    private String email;
+    private String memberId;
+    private String workspaceId;
 
     @Builder
     public ProfileResponseDto(Profile entity){
         this.id = entity.getId();
-        this.name = entity.getName();
         this.nickname = entity.getNickname();
-        this.role = entity.getRole();
+        this.email = entity.getEmail();
+        this.memberId = entity.getMemberId();
+        this.workspaceId = entity.getWorkspaceId();
     }
 
 }

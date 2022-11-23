@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/workspace")
+@RequestMapping("/workspaces")
 @Slf4j
 public class WorkspaceController {
 
@@ -38,8 +38,8 @@ public class WorkspaceController {
     }
 
     @PostMapping("/{id}")
-    public WorkspaceResponseDto updateWorkspace(@PathVariable String id, @RequestBody Workspace workspace){
-        return workspaceService.updateWorkspace(id, workspace);
+    public WorkspaceResponseDto updateWorkspace(@PathVariable String id, @RequestBody WorkspaceRequestDto workspaceRequestDto){
+        return workspaceService.updateWorkspace(id, workspaceRequestDto);
     }
 
     @DeleteMapping("/{id}")

@@ -24,9 +24,10 @@ public class ProfileService {
     @Transactional
     public ProfileResponseDto saveProfile(ProfileRequestDto profileRequestDto){
         Profile profile = Profile.builder()
-                .name(profileRequestDto.getName())
                 .nickname(profileRequestDto.getNickname())
-                .role(profileRequestDto.getRole())
+                .email(profileRequestDto.getEmail())
+                .memberId(profileRequestDto.getMemberId())
+                .workspaceId(profileRequestDto.getWorkspaceId())
                 .build();
 
         profileRepository.save(profile);
@@ -61,9 +62,10 @@ public class ProfileService {
 
         if(profileData.isPresent()) {
             Profile _profile = profileData.get();
-            _profile.setName(profile.getName());
             _profile.setNickname(profile.getNickname());
-            _profile.setRole(profile.getRole());
+            _profile.setEmail(profile.getEmail());
+            _profile.setMemberId(profile.getMemberId());
+            _profile.setWorkspaceId(profile.getWorkspaceId());
             return new ProfileResponseDto(profileRepository.save(_profile));
         }
         else{

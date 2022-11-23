@@ -14,28 +14,34 @@ public class Profile {
     @Id
     private String id;
 
-    private String name;
-
     private String nickname;
 
-    private String role;
+    private String email;
+
+    private String memberId;
+
+    private String workspaceId;
 
     @Builder
-    public Profile(String id, String name, String nickname, String role){
+    public Profile(String id,String nickname, String email, String memberId, String workspaceId){
         this.id = id;
-        this.name = name;
         this.nickname = nickname;
-        this.role = role;
-    }
-
-    public void setName(String name){
-        this.name = name;
+        this.email = email;
+        this.memberId = memberId;
+        this.workspaceId = workspaceId;
     }
 
     public void setNickname(String nickname){
         this.nickname = nickname;
     }
 
-    public void setRole(String role){ this.role = role; }
+    public void setEmail(String email){
+        this.email = email;
+    }
 
+    public void setMemberId(String memberId){
+        this.memberId = memberId;
+    }
+
+    public void setWorkspaceId(String workspaceId) { this.workspaceId = workspaceId; }
 }

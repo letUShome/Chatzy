@@ -1,5 +1,6 @@
 package web.slack.controller.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,3 +15,4 @@ public class MailDto {
     private String workspaceId;
 
 }
+

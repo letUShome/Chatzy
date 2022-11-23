@@ -21,21 +21,24 @@ public class Workspace {
 
     private String name;
 
-    private List<Profile> teammate;
+    private List<String> profileIdList;
 
     @Builder
-    public Workspace (String id, String name, List<Profile> teammate){
+    public Workspace (String id, String name, List<String> profileIdList){
         this.id = id;
         this.name = name;
-        this.teammate = teammate;
+        if(profileIdList != null){
+            this.profileIdList = profileIdList;
+        }
     }
 
     public void setName(String name){
         this.name = name;
     }
 
-    public void setTeammate(List<Profile> profileIds){
-        this.teammate = profileIds;
+    public void setProfileIdList(List<String> profileIdList){
+        this.profileIdList = profileIdList;
     }
+
 
 }

@@ -1,29 +1,22 @@
 package web.slack.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.util.ResourceUtils;
+import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
-public class MailHandler {
+@RequiredArgsConstructor
+public class EmailHandler {
 
-    @Autowired
-    private JavaMailSender sender;
-    private MimeMessage message;
-    private MimeMessageHelper messageHelper;
-    
+    private final JavaMailSender sender;
+    private final MimeMessage message;
+    private final MimeMessageHelper messageHelper;
+
     // 생성자
-    public MailHandler(JavaMailSender jSender) throws MessagingException {
+    public EmailHandler(JavaMailSender jSender) throws MessagingException {
         this.sender = jSender;
         message = jSender.createMimeMessage();
         messageHelper = new MimeMessageHelper(message, true, "UTF-8");

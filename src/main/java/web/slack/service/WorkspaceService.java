@@ -49,7 +49,7 @@ public class WorkspaceService {
     public WorkspaceResponseDto saveWorkspace(WorkspaceRequestDto workspaceRequestDto){
         Workspace workspace = Workspace.builder()
                 .name(workspaceRequestDto.getName())
-                .teammate(workspaceRequestDto.getTeammate())
+                .profileIdList(workspaceRequestDto.getProfileIdList())
                 .build();
 
         workspaceRepository.save(workspace);
@@ -81,18 +81,13 @@ public class WorkspaceService {
 
     // 워크스페이스 수정
     @Transactional
-    public WorkspaceResponseDto updateWorkspace(String id, Workspace workspace){
-        Optional<Workspace> workspaceData = workspaceRepository.findById(id);
+    public WorkspaceResponseDto updateWorkspace(String id, WorkspaceRequestDto workspaceRequestDto){
+        Workspace workspace = workspaceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없는 워크스페이스입니다"));
 
-        if(workspaceData.isPresent()) {
-            Workspace _workspace = workspaceData.get();
-            _workspace.setName(workspace.getName());
-            _workspace.setTeammate(workspace.getTeammate());
-            return new WorkspaceResponseDto(workspaceRepository.save(_workspace));
-        }
-        else{
-            return new WorkspaceResponseDto(workspace);
-        }
+        workspace.setName(workspaceRequestDto.getName());
+        workspace.setProfileIdList(workspaceRequestDto.getProfileIdList());
+        return new WorkspaceResponseDto(workspaceRepository.save(workspace));
+
     }
 
     // 워크스페이스 삭제
@@ -102,62 +97,5 @@ public class WorkspaceService {
         workspaceRepository.delete(workspace);
     }
 
-//    // 워크스페이스 내 초대 메일 전송
-//    public String mailSend(String workspaceId, String email, MailDto mailDto){
-//        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
-//        try{
-//            String auth = getAuthCode(6);
-//            MailHandler mailHandler = new MailHandler(mailSender);
-//
-//            // 받는 사람
-//            mailHandler.setTo(email);
-//            // 보내는 사람
-//            mailHandler.setFrom(FROM_ADDRESS);
-//            // 제목
-//            mailHandler.setSubject(mailDto.getTitle());
-//            // 내용
-//            String htmlContent = "<p>" + mailDto.getMessage() +"</p>" +
-//                    "<p><a href='https://localhost:8080/workspace/" + workspaceId + "/invite?mailKey=" + auth + "'>여기를 클릭하세요</a></p>";
-//            mailHandler.setText(htmlContent, true);
-//
-//            mailHandler.send();
-//            entity.updateAuthKey(auth); // DB에 유저의 authkey 저장
-//
-//            memberInviteRepository.save(entity);
-//
-//            return "success";
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//            return "error: " + e.getMessage();
-//        }
-//    }
-//
-//    public String mailConfirm(String email, String auth){
-//        Member entity = memberRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("유저가 없습니다"));
-//        if (entity==null) {
-//            return "없는 유저입니다.";
-//        }
-//        String realAuth = entity.getAuthKey();
-//        if(realAuth.equals(auth)) {
-//            entity.updateAuthKey(null);
-//            return "email : "+email;
-//        } else {
-//            return "something went wrong!";
-//        }
-//
-//
-//    }
-//
-//    private String getAuthCode(int size) {
-//        Random random = new Random();
-//        StringBuffer buffer = new StringBuffer();
-//        int num = 0;
-//        while(buffer.length() < size) {
-//            num = random.nextInt(10);
-//            buffer.append(num);
-//        }
-//        return buffer.toString();
-//    }
-
 }
+

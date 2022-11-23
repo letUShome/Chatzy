@@ -23,7 +23,7 @@ public class Member {
 
     private Role role;
 
-    private String authKey;
+    private Boolean verified;
 
     @Builder
     public Member(String id, String name, String email, String image, String password, Role role) {
@@ -33,10 +33,11 @@ public class Member {
         this.password = password;
         this.image = image;
         this.role = role;
+        this.verified = false;
     }
 
-    public void updateAuthKey(String authKey) {
-        this.authKey = authKey;
-    }
 
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
 }
