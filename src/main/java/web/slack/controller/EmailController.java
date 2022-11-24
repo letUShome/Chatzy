@@ -17,7 +17,6 @@ import web.slack.service.EmailTokenService;
 public class EmailController {
 
     private final EmailService emailService;
-    private final EmailTokenService emailTokenService;
 
     @GetMapping("/confirm-email")
     public ResponseEntity<Boolean> viewConfirmEmail(@RequestParam String token) {

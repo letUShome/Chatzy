@@ -8,25 +8,25 @@ import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
 
 import java.util.Optional;
-
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class EmailService {
 
     private final EmailTokenService emailTokenService;
     private final MemberRepository memberRepository;
 
-    public boolean verifyEmail(String token)  {
-        // 이메일 토큰을 찾아옴
+    public Boolean verifyEmail(String token) {
         EmailToken findEmailToken = emailTokenService.findByIdAndExpirationDateAfterAndExpired(token);
 
-        Optional<Member> findMember = memberRepository.findById(findEmailToken.getEmail());
-        findEmailToken.setTokenToUsed();
+        Member findMember = memberRepository.findByEmail(findEmailToken.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
 
-        Member member = findMember.get();
-        member.setVerified(true);
+        // 이메일 성공 인증 로직 구현
+        findEmailToken.setTokenToUsed();
+        findMember.setVerified(true);
         return true;
 
     }
+
 }

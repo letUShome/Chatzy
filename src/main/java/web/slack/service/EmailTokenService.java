@@ -22,18 +22,20 @@ public class EmailTokenService {
 
     private final EmailSenderService emailSenderService;
     private final EmailTokenRepository emailTokenRepository;
+    private static final String FROM_ADDRESS = "efubslack@gmail.com";
 
     public String createEmailToken(String email, String workspaceId) {
         Assert.notNull(email, "email 필수입니다");
         Assert.hasText(workspaceId, "초대할 workspaceId는 필수입니다.");
 
         // 이메일 토큰 저장
-        EmailToken emailToken = EmailToken.createEmailToken(email);
+        EmailToken emailToken = EmailToken.createEmailToken(email, workspaceId);
         emailTokenRepository.save(emailToken);
 
         // 이메일 전송
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
+        mailMessage.setFrom(FROM_ADDRESS);
         mailMessage.setSubject("회원가입 이메일 인증");
         mailMessage.setText("http://localhost:8080/confirm-email?token=" + emailToken.getId());
         emailSenderService.sendEmail(mailMessage);
@@ -47,6 +49,6 @@ public class EmailTokenService {
         Optional<EmailToken> emailToken = emailTokenRepository.findByIdAndExpirationDateAfterAndExpired(emailTokenId, LocalDateTime.now(), false);
 
         //토큰이 없다면 예외 발생
-        return emailToken.orElseThrow(() -> new RuntimeException());
+        return emailToken.orElseThrow(() -> new IllegalArgumentException("토큰이 없습니다. "));
     }
 }
