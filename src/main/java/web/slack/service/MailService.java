@@ -48,17 +48,10 @@ public class MailService {
             mailHandler.setSubject("워크스페이스 초대 이메일 인증");
             // HTML Layout
 
-            String htmlContent = "<p>" + mailDto.getMessage() +"</p>" +
-                    "<p><a href='http://localhost:8080/confirm-email?token=" + emailToken.getId() + "'>이메일 인증</a></p>";
+            String htmlContent = "<p><a href='http://localhost:8080/confirm-email?token=" + emailToken.getId() + "'>FakeSlack 워크스페이스 이메일 인증</a></p>";
             mailHandler.setText(htmlContent, true);
-            // 첨부 파일
-            //mailHandler.setAttach("newTest.txt", "static/originTest.txt");
-            // 이미지 삽입
-            //mailHandler.setInline("sample-img", "static/sample1.jpg");
-
 
             mailHandler.send();
-            //entity.updateAuthKey(auth); // DB에 유저의 authkey 저장
             memberInviteRepository.save(entity);
 
             System.out.println("발급받은 토큰 Id : "+emailToken.getId());
