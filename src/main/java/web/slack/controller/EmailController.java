@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import web.slack.controller.dto.MailDto;
 import web.slack.service.EmailService;
 import web.slack.service.EmailTokenService;
 

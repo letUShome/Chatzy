@@ -1,20 +1,27 @@
 package web.slack.service;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import web.slack.controller.dto.MailDto;
 import web.slack.domain.entity.EmailToken;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
 
 import java.util.Optional;
-@Slf4j
+//@Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
+//@RequiredArgsConstructor
 public class EmailService {
 
     private final EmailTokenService emailTokenService;
     private final MemberRepository memberRepository;
+    private JavaMailSender mailSender;
+    private static final String FROM_ADDRESS = "efubslack@gmail.com";
 
     public Boolean verifyEmail(String token) {
         EmailToken findEmailToken = emailTokenService.findByIdAndExpirationDateAfterAndExpired(token);
