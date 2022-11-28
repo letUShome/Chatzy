@@ -17,10 +17,9 @@ import java.io.UnsupportedEncodingException;
 
 public class MailHandler {
 
-    @Autowired
-    private JavaMailSender sender;
-    private MimeMessage message;
-    private MimeMessageHelper messageHelper;
+    private final JavaMailSender sender;
+    private final MimeMessage message;
+    private final MimeMessageHelper messageHelper;
 
     // 생성자
     public MailHandler(JavaMailSender jSender) throws MessagingException {

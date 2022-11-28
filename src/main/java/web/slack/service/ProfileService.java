@@ -36,7 +36,6 @@ public class ProfileService {
     }
 
     // 프로필 전체 조회
-    @Transactional
     public List<ProfileResponseDto> findAllProfileList(){
         List<Profile> profileList = profileRepository.findAll();
         List<ProfileResponseDto> profileResponseDtoList = new ArrayList<>();
@@ -48,7 +47,6 @@ public class ProfileService {
     }
 
     // 프로필 상세 조회
-    @Transactional
     public ProfileResponseDto findById(String id){
         Profile entity = profileRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 프로필이 없습니다. id " + id));
@@ -74,6 +72,7 @@ public class ProfileService {
     }
 
     // 프로필 삭제
+    @Transactional
     public void deleteProfile (String id){
         Profile profile = profileRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 프로필이 없습니다. id = " + id));

@@ -60,7 +60,6 @@ public class WorkspaceService {
     }
 
     // 워크스페이스 전체 조회
-    @Transactional
     public List<WorkspaceResponseDto> findAllWorkspaceList(){
         List<Workspace> workspaceList = workspaceRepository.findAll();
         List<WorkspaceResponseDto> workspaceResponseDtoList = new ArrayList<>();
@@ -72,7 +71,6 @@ public class WorkspaceService {
     }
 
     // 워크스페이스 상세 조회
-    @Transactional
     public WorkspaceResponseDto findById(String id){
         Workspace entity = workspaceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 워크스페이스가 없습니다. id " + id));
@@ -91,6 +89,7 @@ public class WorkspaceService {
     }
 
     // 워크스페이스 삭제
+    @Transactional
     public void deleteWorkspace (String id){
         Workspace workspace = workspaceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 워크스페이스가 없습니다. id = " + id));

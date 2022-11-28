@@ -31,7 +31,7 @@ public class ProfileController {
         return profileService.findById(id);
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public ProfileResponseDto updateProfile(@PathVariable String id, @RequestBody Profile profile){
         return profileService.updateProfile(id, profile);
     }

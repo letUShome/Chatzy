@@ -24,13 +24,13 @@ public class EmailService {
     private static final String FROM_ADDRESS = "efubslack@gmail.com";
 
     public Boolean verifyEmail(String token) {
-        EmailToken findEmailToken = emailTokenService.findByIdAndExpirationDateAfterAndExpired(token);
+        EmailToken emailToken = emailTokenService.findByIdAndExpirationDateAfterAndExpired(token);
 
-        Member findMember = memberRepository.findByEmail(findEmailToken.getEmail())
+        Member findMember = memberRepository.findByEmail(emailToken.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 없습니다."));
 
         // 이메일 성공 인증 로직 구현
-        findEmailToken.setTokenToUsed();
+        emailToken.setTokenToUsed();
         findMember.setVerified(true);
         return true;
 

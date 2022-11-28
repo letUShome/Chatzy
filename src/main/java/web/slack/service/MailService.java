@@ -48,7 +48,9 @@ public class MailService {
             mailHandler.setSubject("워크스페이스 초대 이메일 인증");
             // HTML Layout
 
-            String htmlContent = "<p><a href='http://localhost:8080/confirm-email?token=" + emailToken.getId() + "'>FakeSlack 워크스페이스 이메일 인증</a></p>";
+
+            // TODO: 배포 전, Local host 링크 변경 필요
+            String htmlContent = "<p><a href='http://localhost:8080/email/confirm?token=" + emailToken.getId() + "'>FakeSlack 워크스페이스 이메일 인증</a></p>";
             mailHandler.setText(htmlContent, true);
 
             mailHandler.send();

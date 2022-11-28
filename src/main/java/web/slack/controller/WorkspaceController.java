@@ -37,7 +37,7 @@ public class WorkspaceController {
         return workspaceService.findById(id);
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public WorkspaceResponseDto updateWorkspace(@PathVariable String id, @RequestBody WorkspaceRequestDto workspaceRequestDto){
         return workspaceService.updateWorkspace(id, workspaceRequestDto);
     }
@@ -45,7 +45,7 @@ public class WorkspaceController {
     @DeleteMapping("/{id}")
     public String deleteWorkspace(@PathVariable String id){
         workspaceService.deleteWorkspace(id);
-        return id;
+        return "워크스페이스가 삭제되었습니다. id = "+id;
     }
 
 

@@ -14,7 +14,8 @@ public class ProfileRequestDto {
     private String memberId;
     private String workspaceId;
 
-    @Builder public ProfileRequestDto(String id, String nickname, String email, String memberId, String workspaceId){
+    @Builder
+    public ProfileRequestDto(String id, String nickname, String email, String memberId, String workspaceId){
         this.id = id;
         this.nickname = nickname;
         this.email = email;
