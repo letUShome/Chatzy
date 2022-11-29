@@ -16,12 +16,12 @@ public class TestController {
 
     private final TestService testService;
 
-    @GetMapping("/")
-    public String versionTest(){
-        return "정상적으로 배포되었습니다 : 20221121 22:12";
+    @GetMapping()
+    public String buildtest(){
+        return "정상적으로 배포되었습니다: 2022. 11. 29 20:20";
     }
 
-    @GetMapping("/api/v1/test")
+    @GetMapping
     public List<Test> testList(){
         return testService.findTests();
     }

@@ -23,6 +23,8 @@ public class Member {
 
     private Role role;
 
+    private Boolean tokenFlag;
+
     @Builder
     public Member(String id, String name, String email, String image, String password, Role role) {
         this.id = id;
@@ -31,5 +33,11 @@ public class Member {
         this.password = password;
         this.image = image;
         this.role = role;
+        this.tokenFlag = false;
+    }
+
+
+    public void updateTokenFlag() {
+        this.tokenFlag = true;
     }
 }

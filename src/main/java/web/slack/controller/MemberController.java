@@ -13,9 +13,9 @@ import web.slack.controller.dto.LogInRequestDto;
 import web.slack.controller.dto.SignUpRequestDto;
 import web.slack.controller.dto.MemberResponseDto;
 import web.slack.domain.entity.Member;
-import web.slack.domain.entity.Message;
 import web.slack.util.ResponseMessage;
 import web.slack.util.StatusEnum;
+import web.slack.domain.entity.BodyMessage;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.service.CustomOauth2UserService;
 import web.slack.service.MemberService;
@@ -49,21 +49,21 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Message> login(@RequestBody LogInRequestDto logInRequestDto){
-        Message message = new Message();
+    public ResponseEntity<BodyMessage> login(@RequestBody LogInRequestDto logInRequestDto){
+        BodyMessage bodyMessage = new BodyMessage();
         if(!memberService.isCorrectMember(logInRequestDto)){
             // message.setStatus(StatusEnum.BAD_REQUEST);
-            message.setMessage(ResponseMessage.LOGIN_FAIL);
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+            bodyMessage.setMessage(ResponseMessage.LOGIN_FAIL);
+            return new ResponseEntity<>(bodyMessage, HttpStatus.BAD_REQUEST);
         }
         else{
-            message.setStatus(StatusEnum.OK);
-            message.setMessage(ResponseMessage.LOGIN_SUCCESS);
+            bodyMessage.setStatus(StatusEnum.OK);
+            bodyMessage.setMessage(ResponseMessage.LOGIN_SUCCESS);
             HttpHeaders httpHeaders = new HttpHeaders();
             String memberId = memberRepository.findByEmail(logInRequestDto.getEmail()).get().getId();
             httpHeaders.set("Authorization", jwtTokenProvider.createAccessToken(memberId));
             httpHeaders.set("refresh-token", jwtTokenProvider.createRefreshToken(logInRequestDto.getEmail()));
-            return new ResponseEntity<>(message, httpHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(bodyMessage, httpHeaders, HttpStatus.OK);
         }
     }
 

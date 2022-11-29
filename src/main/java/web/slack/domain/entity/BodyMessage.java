@@ -6,12 +6,12 @@ import web.slack.util.StatusEnum;
 
 @Data
 @Setter
-public class Message {
+public class BodyMessage {
     private StatusEnum status;
     private String message;
     private Object data;
 
-    public Message() {
+    public BodyMessage() {
         this.status = StatusEnum.BAD_REQUEST;
         this.data = null;
         this.message = null;
