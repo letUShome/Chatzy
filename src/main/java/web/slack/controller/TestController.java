@@ -11,7 +11,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/test")
+@RequestMapping()
 public class TestController {
 
     private final TestService testService;
@@ -26,7 +26,7 @@ public class TestController {
         return testService.findTests();
     }
 
-    @PostMapping
+    @PostMapping("/api/v1/test")
     public String addTest(@RequestBody TestRequestDto requestDto){
         return testService.saveTest(requestDto);
     }
