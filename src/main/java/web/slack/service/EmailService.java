@@ -20,7 +20,7 @@ public class EmailService {
 
     private final EmailTokenService emailTokenService;
     private final MemberRepository memberRepository;
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "efubslack@gmail.com";
 
     public Boolean verifyEmail(String token) {
