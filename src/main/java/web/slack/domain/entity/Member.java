@@ -23,7 +23,7 @@ public class Member {
 
     private Role role;
 
-    private Boolean verified;
+    private Boolean tokenFlag;
 
     @Builder
     public Member(String id, String name, String email, String image, String password, Role role) {
@@ -33,11 +33,11 @@ public class Member {
         this.password = password;
         this.image = image;
         this.role = role;
-        this.verified = false;
+        this.tokenFlag = false;
     }
 
 
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
+    public void updateTokenFlag() {
+        this.tokenFlag = true;
     }
 }

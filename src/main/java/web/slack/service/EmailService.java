@@ -31,7 +31,7 @@ public class EmailService {
 
         // 이메일 성공 인증 로직 구현
         emailToken.setTokenToUsed();
-        findMember.setVerified(true);
+        findMember.updateTokenFlag();
         return true;
 
     }
