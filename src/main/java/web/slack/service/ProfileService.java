@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import web.slack.controller.dto.ProfileRequestDto;
 import web.slack.controller.dto.ProfileResponseDto;
 import web.slack.domain.entity.Profile;
+import web.slack.domain.entity.Workspace;
 import web.slack.domain.repository.ProfileRepository;
 
 import java.util.ArrayList;
@@ -55,20 +56,23 @@ public class ProfileService {
 
     // 프로필 수정
     @Transactional
-    public ProfileResponseDto updateProfile(String id, Profile profile){
-        Optional<Profile> profileData = profileRepository.findById(id);
+    public ProfileResponseDto updateProfile(String id, ProfileRequestDto profileRequestDto){
+        Profile profile = profileRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없는 프로필입니다"));
 
-        if(profileData.isPresent()) {
-            Profile _profile = profileData.get();
-            _profile.setNickname(profile.getNickname());
-            _profile.setEmail(profile.getEmail());
-            _profile.setMemberId(profile.getMemberId());
-            _profile.setWorkspaceId(profile.getWorkspaceId());
-            return new ProfileResponseDto(profileRepository.save(_profile));
+        Profile entity = profileRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 프로필이 없습니다. id " + id));
+
+        if(profileRequestDto.getNickname() != null){
+            profile.setNickname(profileRequestDto.getNickname());
         }
-        else{
-            return new ProfileResponseDto(profile);
+        if(profileRequestDto.getEmail() != null){
+            profile.setEmail(profileRequestDto.getEmail());
         }
+        if(profileRequestDto.getWorkspaceId() != null){
+            profile.setWorkspaceId(profileRequestDto.getWorkspaceId());
+        }
+
+        return new ProfileResponseDto(profileRepository.save(profile));
     }
 
     // 프로필 삭제

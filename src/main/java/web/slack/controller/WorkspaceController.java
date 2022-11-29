@@ -42,6 +42,8 @@ public class WorkspaceController {
         return workspaceService.updateWorkspace(id, workspaceRequestDto);
     }
 
+
+
     @DeleteMapping("/{id}")
     public String deleteWorkspace(@PathVariable String id){
         workspaceService.deleteWorkspace(id);

@@ -82,8 +82,15 @@ public class WorkspaceService {
     public WorkspaceResponseDto updateWorkspace(String id, WorkspaceRequestDto workspaceRequestDto){
         Workspace workspace = workspaceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없는 워크스페이스입니다"));
 
-        workspace.setName(workspaceRequestDto.getName());
-        workspace.setProfileIdList(workspaceRequestDto.getProfileIdList());
+        Workspace entity = workspaceRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 워크스페이스가 없습니다. id " + id));
+
+        if(workspaceRequestDto.getName() != null){
+            workspace.setName(workspaceRequestDto.getName());
+        }
+        if(workspaceRequestDto.getProfileIdList() != null){
+            workspace.setProfileIdList(workspaceRequestDto.getProfileIdList());
+        }
         return new WorkspaceResponseDto(workspaceRepository.save(workspace));
 
     }

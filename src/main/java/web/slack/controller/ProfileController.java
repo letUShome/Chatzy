@@ -32,14 +32,14 @@ public class ProfileController {
     }
 
     @PatchMapping("/{id}")
-    public ProfileResponseDto updateProfile(@PathVariable String id, @RequestBody Profile profile){
-        return profileService.updateProfile(id, profile);
+    public ProfileResponseDto updateProfile(@PathVariable String id, @RequestBody ProfileRequestDto profileRequestDto){
+        return profileService.updateProfile(id, profileRequestDto);
     }
 
     @DeleteMapping("/{id}")
     public String deleteProfile(@PathVariable String id){
         profileService.deleteProfile(id);
-        return id;
+        return "프로필이 삭제되었습니다. id = "+id;
     }
 
 }
