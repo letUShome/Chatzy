@@ -1,4 +1,4 @@
-package web.slack.domain.entity;
+package web.slack.util;
 
 public class ResponseMessage {
     public static final String LOGIN_SUCCESS = "로그인 성공";

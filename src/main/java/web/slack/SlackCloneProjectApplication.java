@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class SlackCloneProjectApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SlackCloneProjectApplication.class, args);
 	}
 

@@ -11,17 +11,22 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/test")
+@RequestMapping()
 public class TestController {
 
     private final TestService testService;
+
+    @GetMapping()
+    public String buildtest(){
+        return "정상적으로 배포되었습니다: 2022. 11. 29 20:20";
+    }
 
     @GetMapping
     public List<Test> testList(){
         return testService.findTests();
     }
 
-    @PostMapping
+    @PostMapping("/api/v1/test")
     public String addTest(@RequestBody TestRequestDto requestDto){
         return testService.saveTest(requestDto);
     }
