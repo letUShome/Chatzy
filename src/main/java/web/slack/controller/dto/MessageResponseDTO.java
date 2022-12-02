@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
 import web.slack.domain.entity.MessageType;
+import web.slack.domain.entity.Profile;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +17,7 @@ public class MessageResponseDTO {
 
     private String chatroomId;
 
-    private Member sender;
+    private Profile sender;
 
     private String context;
 

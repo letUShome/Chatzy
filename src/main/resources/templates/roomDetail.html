@@ -76,11 +76,11 @@
         this.message = '';
       },
       recvMessage: function(recv) {
-        this.messages.unshift({"type":recv.type,"sender":recv.type=='ALARM'?'[알림] ' + recv.sender.name + "님 " :recv.sender.name,"message":recv.context, "date":recv.date})
+        this.messages.unshift({"type":recv.type,"sender":recv.type=='ALARM'?'[알림] ' + recv.sender.nickname + "님 " :recv.sender.nickname,"message":recv.context, "date":recv.date})
       },
       findMessages: function() {
         axios.get('/chatrooms/' +this.roomId + '/message').then(response => {this.prevMessages = response.data});
-        this.messages.unshift({"type":this.prevMessages[0].type,"sender":this.prevMessages[0].sender.name,"message":this.prevMessages[0].context});
+        this.messages.unshift({"type":this.prevMessages[0].type,"sender":this.prevMessages[0].sender.nickname,"message":this.prevMessages[0].context});
       }
     }
   });
@@ -88,7 +88,7 @@
   function connect() {
     // pub/sub event
     ws.connect({}, function(frame) {
-      ws.subscribe("/topic/direct/"+vm.$data.roomId, function(message) {
+      ws.subscribe("/topic/channel/"+vm.$data.roomId, function(message) {
         var recv = JSON.parse(message.body);
         vm.recvMessage(recv);
       });

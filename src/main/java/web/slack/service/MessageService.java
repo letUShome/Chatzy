@@ -6,8 +6,10 @@ import web.slack.controller.dto.MessageRequestDTO;
 import web.slack.controller.dto.MessageResponseDTO;
 import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
+import web.slack.domain.entity.Profile;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.domain.repository.MessageRepository;
+import web.slack.domain.repository.ProfileRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 public class MessageService {
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
+    private final ProfileRepository profileRepository;
 
     public List<MessageResponseDTO> findMessageList(String chatroomId) {
         List<Message> messages = messageRepository.findAllByChatroomOrderByDate(chatroomId);
@@ -29,8 +32,8 @@ public class MessageService {
     }
 
     public Message addMessage(MessageRequestDTO messageRequestDTO) {
-        Member member = memberRepository.findById(messageRequestDTO.getSender()).orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
-        Message message = messageRequestDTO.toEntity(member);
+        Profile profile = profileRepository.findById(messageRequestDTO.getSender()).orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
+        Message message = messageRequestDTO.toEntity(profile);
         return messageRepository.save(message);
     }
 

@@ -20,7 +20,7 @@ public class Message {
 
     private String context;
 
-    private Member sender;
+    private Profile sender;
 
     private String chatroom;
 
@@ -31,7 +31,7 @@ public class Message {
     private Boolean readFlag;
 
     @Builder
-    public Message(String context, Member sender, String chatroom, MessageType type) {
+    public Message(String context, Profile sender, String chatroom, MessageType type) {
         this.context = context;
         this.sender = sender;
         this.chatroom = chatroom;

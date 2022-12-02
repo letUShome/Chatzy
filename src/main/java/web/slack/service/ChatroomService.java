@@ -7,8 +7,10 @@ import web.slack.controller.dto.ChatroomRequestDTO;
 import web.slack.controller.dto.ChatroomResponseDTO;
 import web.slack.domain.entity.Chatroom;
 import web.slack.domain.entity.Member;
+import web.slack.domain.entity.Profile;
 import web.slack.domain.repository.ChatroomRepository;
 import web.slack.domain.repository.MemberRepository;
+import web.slack.domain.repository.ProfileRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ChatroomService {
     private final ChatroomRepository chatroomRepository;
     private final MemberRepository memberRepository;
+    private final ProfileRepository profileRepository;
 
     public List<ChatroomResponseDTO> findChatrooms() {
         List<Chatroom> chatrooms = chatroomRepository.findAll();
@@ -40,7 +43,7 @@ public class ChatroomService {
     public ChatroomResponseDTO addChatroom(ChatroomRequestDTO chatroomRequestDTO) {
         Chatroom chatroom = chatroomRequestDTO.toEntity();
         if(chatroomRequestDTO.getTeammate()!=null) {
-            chatroom.updateTeammate(findMemberById(chatroomRequestDTO.getTeammate()));
+            chatroom.updateTeammate(findTeammateById(chatroomRequestDTO.getTeammate()));
         }
         String chatroomId = chatroomRepository.save(chatroom).getId();
 
@@ -60,22 +63,22 @@ public class ChatroomService {
         }
     }
 
-    public List<Member> findMemberById(List<String> memberIds) {
-        List<Member> members = new ArrayList<>();
-        for(String memberId : memberIds) {
-            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("없는 유저입니다"));
-            members.add(member);
+    public List<Profile> findTeammateById(List<String> profileIds) {
+        List<Profile> teammate = new ArrayList<>();
+        for(String profileId : profileIds) {
+            Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new IllegalArgumentException("없는 유저입니다"));
+            teammate.add(profile);
         }
-        return members;
+        return teammate;
     }
 
-    public List<String> extractMemberId(List<Member> members) {
-        List<String> memberIds = new ArrayList<>();
-        for(Member member : members) {
-            String memberId = member.getId();
-            memberIds.add(memberId);
+    public List<String> extractProfileId(List<Profile> teammate) {
+        List<String> profileIds = new ArrayList<>();
+        for(Profile profile : teammate) {
+            String profileId = profile.getId();
+            profileIds.add(profileId);
         }
-        return memberIds;
+        return profileIds;
     }
 
 }

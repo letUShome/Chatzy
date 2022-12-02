@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import web.slack.domain.entity.Member;
 import web.slack.domain.entity.Message;
 import web.slack.domain.entity.MessageType;
+import web.slack.domain.entity.Profile;
 
 import java.time.LocalDateTime;
 
@@ -31,9 +32,9 @@ public class MessageRequestDTO {
         this.sender = sender;
     }
 
-    public Message toEntity(Member member) {
+    public Message toEntity(Profile profile) {
         return Message.builder()
-                    .sender(member)
+                    .sender(profile)
                     .chatroom(this.getChatroomId())
                     .context(this.getContext())
                     .type(this.getType())

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import web.slack.domain.entity.Chatroom;
 import web.slack.domain.entity.ChatroomType;
 import web.slack.domain.entity.Member;
+import web.slack.domain.entity.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,14 @@ public class ChatroomResponseDTO {
         this.workspaceId = chatroom.getWorkspaceId();
         this.name = chatroom.getName();
         this.type = chatroom.getType();
-        if(chatroom.getTeammate()!=null) this.teammate = extractMemberId(chatroom.getTeammate());
+        if(chatroom.getTeammate()!=null) this.teammate = extractProfileId(chatroom.getTeammate());
     }
 
-    public List<String> extractMemberId(List<Member> members) {
-        List<String> memberIds = new ArrayList<>();
-        for(Member member : members) {
-            memberIds.add(member.getId());
+    public List<String> extractProfileId(List<Profile> teammate) {
+        List<String> profileIds = new ArrayList<>();
+        for(Profile profile : teammate) {
+            profileIds.add(profile.getId());
         }
-        return memberIds;
+        return profileIds;
     }
 }

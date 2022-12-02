@@ -23,10 +23,10 @@ public class Chatroom {
 
     private String name;
 
-    private List<Member> teammate;
+    private List<Profile> teammate;
 
     @Builder
-    public Chatroom(String workspaceId, ChatroomType type, String name, List<Member> teammate) {
+    public Chatroom(String workspaceId, ChatroomType type, String name, List<Profile> teammate) {
         this.workspaceId = workspaceId;
         this.type = type;
         this.name = name;
@@ -35,8 +35,8 @@ public class Chatroom {
         }
     }
 
-    public void updateTeammate(List<Member> members) {
-        this.teammate = members;
+    public void updateTeammate(List<Profile> teammate) {
+        this.teammate = teammate;
     }
 
     public ChatroomResponseDTO toDTO() {
