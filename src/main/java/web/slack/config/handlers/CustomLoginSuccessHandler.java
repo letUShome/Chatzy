@@ -27,13 +27,11 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         Member member = findMemberId(oAuth2User);
         String token = jwtTokenProvider.createAccessToken(member.getId());
         String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2User.getAttribute("email"));
-        response.setHeader("Authorization", token);
-        response.setHeader("refresh-token", refreshToken);
-        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());
+        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(token));
     }
 
-    private String makeRedirectUrl(){
-        return UriComponentsBuilder.fromUriString("http://localhost:3090/workspace/sleact/channel/normal").build().toUriString();
+    private String makeRedirectUrl(String token){
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/workspace/sleact/channel/normal/id=" + token).build().toUriString();
     }
 
     private Member findMemberId(OAuth2User oAuth2User){
