@@ -17,6 +17,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -27,6 +28,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         Member member = findMemberId(oAuth2User);
         String token = jwtTokenProvider.createAccessToken(member.getId());
         String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2User.getAttribute("email"));
+        log.info("token: " +  token);
         response.setHeader("Authorization", token);
         response.setHeader("refresh-token", refreshToken);
         getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());

@@ -45,9 +45,6 @@ public class ChatroomService {
         return chatroom.toDTO();
     }
 
-    public Boolean isChatroomAtWorkspace(String workspaceId, Chatroom chatroom) {
-        return chatroom.getWorkspaceId().equals(workspaceId);
-    }
 
     @Transactional
     public ChatroomResponseDTO addChatroom(String workspaceId, ChatroomRequestDTO chatroomRequestDTO) {

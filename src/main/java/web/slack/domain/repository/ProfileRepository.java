@@ -6,5 +6,7 @@ import web.slack.domain.entity.Profile;
 import java.util.Optional;
 
 public interface ProfileRepository extends MongoRepository<Profile, String> {
+
+    Optional<Profile> findProfileByMemberId(String memberId);
     Optional<Profile> findById(String id);
 }

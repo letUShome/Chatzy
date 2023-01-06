@@ -46,6 +46,9 @@
   var sock = new SockJS("/ws/chat");
   var ws = Stomp.over(sock);
   var reconnect = 0;
+  var headers = {
+    Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2hsZXlzbWlsZTNAZ21haWwuY29tIiwiaWF0IjoxNjczMDA3MDA3LCJleHAiOjE2NzMwMDg4MDd9.dmJ3nlmw9jDv-i37C_FQODGd7sOtGSa8MSyd67cBO8Q',
+  };
   // vue.js
   var vm = new Vue({
     el: '#app',
@@ -66,10 +69,8 @@
     },
     methods: {
       findRoom: function() {
-        axios.get('/chatrooms/'+this.roomId).then(response => { this.room = response.data;});
-        this.senderName = this.room.sender.name;
+        axios.get('http://localhost:8080/workspaces/636dd0a7a5338c1a0653e009/chatroom/'+this.roomId).then(response => { this.room = response.data;});
         this.roomType = this.room.type;
-        this.findMessages();
       },
       sendMessage: function() {
         ws.send("/pub/message", {}, JSON.stringify({chatroom_id:this.roomId, sender:this.sender, context:this.message, type:'TALK'}));
@@ -87,7 +88,7 @@
 
   function connect() {
     // pub/sub event
-    ws.connect({}, function(frame) {
+    ws.connect(headers, function(frame) {
       ws.subscribe("/topic/channel/"+vm.$data.roomId, function(message) {
         var recv = JSON.parse(message.body);
         vm.recvMessage(recv);
