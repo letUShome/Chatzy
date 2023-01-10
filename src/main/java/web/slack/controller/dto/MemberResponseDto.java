@@ -1,8 +1,10 @@
 package web.slack.controller.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import web.slack.domain.entity.Member;
+
+import java.util.List;
+import java.util.Map;
 
 @Getter
 public class MemberResponseDto {
@@ -10,9 +12,12 @@ public class MemberResponseDto {
     private String name;
     private String email;
 
-    public MemberResponseDto(Member entity) {
+    private List<Map<String, String>> profiles;
+
+    public MemberResponseDto(Member entity, List<Map<String, String>> memberWorkspace) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.email = entity.getEmail();
+        this.profiles = memberWorkspace;
     }
 }

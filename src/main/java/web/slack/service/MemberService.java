@@ -1,20 +1,26 @@
 package web.slack.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import web.slack.controller.dto.LogInRequestDto;
 import web.slack.controller.dto.SignUpRequestDto;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
+import web.slack.domain.repository.ProfileRepository;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ProfileRepository profileRepository;
 
     public String signUp(SignUpRequestDto signUpRequestDto) {
         Member member = Member.builder()
@@ -35,5 +41,11 @@ public class MemberService {
             return false;
         }
         return true;
+    }
+
+    public List<Map<String, String>> findMemberWorkspace(Member member){
+        List<Map<String, String>> profiles = profileRepository.findByMemberId(member.getId());
+        log.info(profiles.toString());
+        return profiles;
     }
 }

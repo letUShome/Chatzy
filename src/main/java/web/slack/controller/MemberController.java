@@ -40,7 +40,7 @@ public class MemberController {
 
     @GetMapping("/current")
     public MemberResponseDto loadLoginUser(@AuthMember Member member){
-        return new MemberResponseDto(member);
+        return new MemberResponseDto(member, memberService.findMemberWorkspace(member));
     }
 
     @PostMapping("/signup")
