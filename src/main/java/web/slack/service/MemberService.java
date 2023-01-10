@@ -85,8 +85,9 @@ public class MemberService {
         HttpHeaders headers = new HttpHeaders();
 
         log.info(code.getCreatedAt().toString());
+        log.info(String.valueOf(code.getCreatedAt().isAfter(LocalDateTime.now())));
 
-        if(code.getCreatedAt().isAfter(LocalDateTime.now())){
+        if(code.getCreatedAt().isBefore(LocalDateTime.now())){
             bodyMessage.setMessage(ResponseMessage.LOGIN_FAIL);
             return new ResponseEntity<>(bodyMessage, HttpStatus.BAD_REQUEST);
         }
