@@ -17,9 +17,7 @@ public class GoogleCode {
     @Id
     private String id;
 
-    private String memberId;
-
-    private String email;
+    private Member member;
 
     private String code;
 
@@ -27,10 +25,9 @@ public class GoogleCode {
     private LocalDateTime createdAt;
 
     @Builder
-    public GoogleCode(String id, String memberId, String email, String code, LocalDateTime createdAt) {
+    public GoogleCode(String id, Member member, String code, LocalDateTime createdAt) {
         this.id = id;
-        this.memberId = memberId;
-        this.email = email;
+        this.member = member;
         this.code = code;
         this.createdAt = createdAt;
     }

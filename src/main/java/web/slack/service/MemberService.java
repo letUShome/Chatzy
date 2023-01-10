@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import web.slack.controller.dto.LogInRequestDto;
 import web.slack.controller.dto.SignUpRequestDto;
+import web.slack.domain.entity.GoogleCode;
 import web.slack.domain.entity.Member;
+import web.slack.domain.repository.GoogleCodeRepository;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.domain.repository.ProfileRepository;
 
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,18 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ProfileRepository profileRepository;
+
+    private final GoogleCodeRepository codeRepository;
+
+    public String generateCode(Member member){
+        GoogleCode googleCode = GoogleCode.builder()
+                .member(member)
+                .code(String.valueOf(ThreadLocalRandom.current().nextInt(100000, 1000000)))
+                .build();
+        codeRepository.save(googleCode);
+        log.info(googleCode.toString());
+        return googleCode.getCode();
+    }
 
     public String signUp(SignUpRequestDto signUpRequestDto) {
         Member member = Member.builder()

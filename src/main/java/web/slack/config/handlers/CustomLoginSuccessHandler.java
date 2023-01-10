@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
+import web.slack.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,19 +20,22 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Member member = findMemberId(oAuth2User);
-        String token = jwtTokenProvider.createAccessToken(member.getId());
-        String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2User.getAttribute("email"));
-        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(token));
+
+        // TODO: 난수 생성하여 redirect url 옆에 ?email=$email&code=$code 형식으로 수정
+        String email = member.getEmail();
+        String code = memberService.generateCode(member);
+
+        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(email, code));
     }
 
-    private String makeRedirectUrl(String token){
-        return UriComponentsBuilder.fromUriString("http://localhost:3090/workspace/sleact/channel/normal/id=" + token).build().toUriString();
+    private String makeRedirectUrl(String email, String code){
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/login?email=" + email + "&code=" + code).build().toUriString();
     }
 
     private Member findMemberId(OAuth2User oAuth2User){
