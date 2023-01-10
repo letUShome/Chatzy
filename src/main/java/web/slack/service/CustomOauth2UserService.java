@@ -35,7 +35,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         OauthAttributes attributes = OauthAttributes.ofGoogle(userNameAttributeName, oAuth2User.getAttributes());
-        Member member = saveOrUpate(attributes);
+        Member member = saveOrUpdate(attributes);
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRole().getKey())),
@@ -44,7 +44,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         );
     }
 
-    public Member saveOrUpate(OauthAttributes attributes) {
+    public Member saveOrUpdate(OauthAttributes attributes) {
         if(memberRepository.findByEmail(attributes.getEmail()).isEmpty()){
             Member member = attributes.toEntity();
             return memberRepository.save(member);
@@ -55,7 +55,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public String  loadUserPostman(Map<String, Object> attribute) {
         OauthAttributes attributes = OauthAttributes.ofGoogle((String) attribute.get("sub"), attribute);
-        Member member = saveOrUpate(attributes);
+        Member member = saveOrUpdate(attributes);
         return member.getId();
     }
 }
