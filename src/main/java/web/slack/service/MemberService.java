@@ -2,15 +2,24 @@ package web.slack.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.controller.dto.LogInRequestDto;
+import web.slack.controller.dto.OauthLogInRequestDto;
 import web.slack.controller.dto.SignUpRequestDto;
+import web.slack.domain.entity.BodyMessage;
 import web.slack.domain.entity.GoogleCode;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.GoogleCodeRepository;
 import web.slack.domain.repository.MemberRepository;
 import web.slack.domain.repository.ProfileRepository;
+import web.slack.util.ResponseMessage;
+import web.slack.util.StatusEnum;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,15 +35,17 @@ public class MemberService {
     private final ProfileRepository profileRepository;
 
     private final GoogleCodeRepository codeRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public String generateCode(Member member){
         GoogleCode googleCode = GoogleCode.builder()
                 .member(member)
                 .code(String.valueOf(ThreadLocalRandom.current().nextInt(100000, 1000000)))
+                .createdAt(LocalDateTime.now().plusMinutes(3))
                 .build();
         codeRepository.save(googleCode);
-        log.info(googleCode.toString());
-        return googleCode.getCode();
+
+        return "?id=" + googleCode.getId() + "&code=" + googleCode.getCode();
     }
 
     public String signUp(SignUpRequestDto signUpRequestDto) {
@@ -62,5 +73,31 @@ public class MemberService {
         List<Map<String, String>> profiles = profileRepository.findByMemberId(member.getId());
         log.info(profiles.toString());
         return profiles;
+    }
+
+    public ResponseEntity<?> googleLogIn(OauthLogInRequestDto requestDto) {
+        GoogleCode code = codeRepository.findById(requestDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 인증입니다."));
+
+        log.info(code.getMember().getEmail());
+
+        BodyMessage bodyMessage = new BodyMessage();
+        HttpHeaders headers = new HttpHeaders();
+
+        log.info(code.getCreatedAt().toString());
+
+        if(code.getCreatedAt().isAfter(LocalDateTime.now())){
+            bodyMessage.setMessage(ResponseMessage.LOGIN_FAIL);
+            return new ResponseEntity<>(bodyMessage, HttpStatus.BAD_REQUEST);
+        }
+        else{
+            bodyMessage.setStatus(StatusEnum.OK);
+            bodyMessage.setMessage(ResponseMessage.LOGIN_SUCCESS);
+            headers.set("Authorization", jwtTokenProvider.createAccessToken(code.getMember().getId()));
+            headers.set("refresh-token", jwtTokenProvider.createRefreshToken(code.getMember().getEmail()));
+        }
+
+        return new ResponseEntity<>(bodyMessage, headers, HttpStatus.OK);
+
     }
 }

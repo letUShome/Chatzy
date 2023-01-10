@@ -15,6 +15,7 @@ import web.slack.service.MemberService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -27,15 +28,13 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Member member = findMemberId(oAuth2User);
 
-        // TODO: 난수 생성하여 redirect url 옆에 ?email=$email&code=$code 형식으로 수정
-        String email = member.getEmail();
-        String code = memberService.generateCode(member);
+        // TODO: 난수 생성하여 redirect url 옆에 ?id=$email&code=$code 형식으로 수정
 
-        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(email, code));
+        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(memberService.generateCode(member)));
     }
 
-    private String makeRedirectUrl(String email, String code){
-        return UriComponentsBuilder.fromUriString("http://localhost:3090/login?email=" + email + "&code=" + code).build().toUriString();
+    private String makeRedirectUrl(String info){
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/login" + info).build().toUriString();
     }
 
     private Member findMemberId(OAuth2User oAuth2User){
