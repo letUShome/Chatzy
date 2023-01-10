@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ProfileRepository extends MongoRepository<Profile, String> {
 
-    Optional<Profile> findProfileByMemberId(String memberId);
+    Optional<Profile> findProfileByMemberIdAndAndWorkspaceId(String member, String workspace);
     Optional<Profile> findById(String id);
 }
