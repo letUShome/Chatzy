@@ -7,6 +7,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import web.slack.controller.dto.MessageResponseDTO;
+import web.slack.controller.dto.ProfileResponseDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,13 +32,16 @@ public class Message {
     private Boolean readFlag;
 
     @Builder
-    public Message(String context, Profile sender, String chatroom, MessageType type) {
+    public Message(String context, String chatroom, MessageType type) {
         this.context = context;
-        this.sender = sender;
         this.chatroom = chatroom;
         this.type = type;
         this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a HH:mm"));;
         this.readFlag = false;
+    }
+
+    public void updateSender(Profile profile) {
+        this.sender = profile;
     }
 
     public MessageResponseDTO toDTO() {

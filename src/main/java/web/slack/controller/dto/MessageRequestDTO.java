@@ -18,23 +18,19 @@ public class MessageRequestDTO {
     @JsonProperty("chatroom_id")
     private String chatroomId;
 
-    private String sender;
-
     private String context;
 
     private MessageType type;
 
     @Builder
-    public MessageRequestDTO(String type, String channelId, String sender, String context) {
+    public MessageRequestDTO(String type, String channelId, String context) {
         this.type = MessageType.valueOf(type);
         this.chatroomId = channelId;
         this.context = context;
-        this.sender = sender;
     }
 
-    public Message toEntity(Profile profile) {
+    public Message toEntity() {
         return Message.builder()
-                    .sender(profile)
                     .chatroom(this.getChatroomId())
                     .context(this.getContext())
                     .type(this.getType())

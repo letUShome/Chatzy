@@ -31,9 +31,9 @@ public class MessageService {
         return messageResponseDTOS;
     }
 
-    public Message addMessage(MessageRequestDTO messageRequestDTO) {
-        Profile profile = profileRepository.findById(messageRequestDTO.getSender()).orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
-        Message message = messageRequestDTO.toEntity(profile);
+    public Message addMessage(MessageRequestDTO messageRequestDTO, Profile profile) {
+        Message message = messageRequestDTO.toEntity();
+        message.updateSender(profile);
         return messageRepository.save(message);
     }
 
