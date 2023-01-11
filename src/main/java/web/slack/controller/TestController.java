@@ -18,6 +18,6 @@ public class TestController {
 
     @GetMapping()
     public String buildtest(){
-        return "정상적으로 배포되었습니다: 2022. 11. 29 20:20";
+        return "정상적으로 배포되었습니다: 2023. 01. 11 15:12";
     }
 }

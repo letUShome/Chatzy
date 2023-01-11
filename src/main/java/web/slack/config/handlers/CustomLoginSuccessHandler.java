@@ -10,30 +10,30 @@ import org.springframework.web.util.UriComponentsBuilder;
 import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
+import web.slack.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Member member = findMemberId(oAuth2User);
-        String token = jwtTokenProvider.createAccessToken(member.getId());
-        String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2User.getAttribute("email"));
-        response.setHeader("Authorization", token);
-        response.setHeader("refresh-token", refreshToken);
-        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl());
+
+        getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(memberService.generateCode(member)));
     }
 
-    private String makeRedirectUrl(){
-        return UriComponentsBuilder.fromUriString("http://localhost:3090/workspace/sleact/channel/normal").build().toUriString();
+    private String makeRedirectUrl(String info){
+        return UriComponentsBuilder.fromUriString("http://localhost:3090/login" + info).build().toUriString();
     }
 
     private Member findMemberId(OAuth2User oAuth2User){
