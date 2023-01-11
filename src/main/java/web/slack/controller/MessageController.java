@@ -58,12 +58,12 @@ public class MessageController {
         }
     }
 
-    @GetMapping("/chatrooms/{chatroomId}/message")
+    @GetMapping("/chatroom/{chatroomId}/message")
     public List<MessageResponseDTO> messageList(@PathVariable String chatroomId) {
         return messageService.findMessageList(chatroomId);
     }
 
-    @DeleteMapping("/chatrooms/{chatroomId}/message")
+    @DeleteMapping("/chatroom/{chatroomId}/message")
     public String messageRemove(@PathVariable String chatroomId) {
         return messageService.removeMessage(chatroomId);
     }

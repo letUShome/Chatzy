@@ -47,7 +47,7 @@
   var ws = Stomp.over(sock);
   var reconnect = 0;
   var headers = {
-    Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraW1zNTY4NDlAZXdoYWluLm5ldCIsImlhdCI6MTY3MzM0MjEwNCwiZXhwIjoxNjczMzQzOTA0fQ.CWJmGKfAfwNxlWxgcTY1z-Pt1cbrFLF5Dj_JSI_1RQo'
+    Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraW1zNTY4NDlAZXdoYWluLm5ldCIsImlhdCI6MTY3MzM0ODA5OSwiZXhwIjoxNjczMzQ5ODk5fQ.RrwLIJp5Qq2758fXAcDfbZok9rXK2we3_O6SEDNA-O4'
   };
   // vue.js
   var vm = new Vue({
@@ -55,7 +55,7 @@
     data: {
       roomId: '',
       room: [],
-      sender: '',
+      workspaceId: '',
       senderName: '',
       message: '',
       messages: [],
@@ -64,7 +64,7 @@
     },
     created() {
       this.roomId = localStorage.getItem('wschat.roomId');
-      this.sender = localStorage.getItem('wschat.sender');
+      headers.Authorization = localStorage.getItem('wschat.token');
       this.findRoom();
     },
     methods: {

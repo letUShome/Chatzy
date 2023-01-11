@@ -72,9 +72,9 @@
                 }
             },
             enterRoom: function(roomId) {
-                var sender = prompt('유저아이디를 입력해 주세요.');
-                if(sender !== "") {
-                    localStorage.setItem('wschat.sender',sender);
+                var token = prompt('토큰을 입력해 주세요.');
+                if(token !== "") {
+                    localStorage.setItem('wschat.token',token);
                     localStorage.setItem('wschat.roomId',roomId);
                     location.href="/ws/enter/"+roomId;
                 }
