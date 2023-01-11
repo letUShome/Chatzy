@@ -94,7 +94,9 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(jwtToken);
             log.info(claims.toString());
             log.info(claims.getBody().getExpiration().toString());
-            return claims.getBody().getExpiration().before(new Date());
+            log.info("validate: " + new Date());
+            log.info(String.valueOf(claims.getBody().getExpiration().after(new Date())));
+            return claims.getBody().getExpiration().after(new Date());
         }
         catch (Exception e){
             return false;

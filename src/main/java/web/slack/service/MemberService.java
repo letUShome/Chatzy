@@ -3,6 +3,7 @@ package web.slack.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import web.slack.controller.dto.LogInRequestDto;
+import web.slack.controller.dto.MemberResponseDto;
 import web.slack.controller.dto.SignUpRequestDto;
 import web.slack.domain.entity.Member;
 import web.slack.domain.repository.MemberRepository;
@@ -35,5 +36,12 @@ public class MemberService {
             return false;
         }
         return true;
+    }
+
+    public MemberResponseDto findMemberByEmail(String email) {
+         Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 메일로 가입한 유저가 없습니다: " + email));
+
+         return member.toDTO();
     }
 }

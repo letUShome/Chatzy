@@ -54,6 +54,11 @@ public class ProfileService {
         return new ProfileResponseDto(entity);
     }
 
+    public Profile findByMemberWorkspace(String memberId, String workspaceId) {
+        return profileRepository.findProfileByMemberIdAndAndWorkspaceId(memberId, workspaceId)
+                .orElseThrow(() ->  new IllegalArgumentException("워크스페이스와 멤버 정보에 오류가 있습니다"));
+    }
+
     // 프로필 수정
     @Transactional
     public ProfileResponseDto updateProfile(String id, ProfileRequestDto profileRequestDto){
