@@ -100,6 +100,4 @@ public class MemberController {
         }
         return "Response with header using HttpServletResponse";
     }
-
-
 }

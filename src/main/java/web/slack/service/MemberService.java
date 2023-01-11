@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.controller.dto.LogInRequestDto;
 import web.slack.controller.dto.OauthLogInRequestDto;
+import web.slack.controller.dto.MemberResponseDto;
 import web.slack.controller.dto.SignUpRequestDto;
 import web.slack.domain.entity.BodyMessage;
 import web.slack.domain.entity.GoogleCode;
@@ -89,11 +90,10 @@ public class MemberService {
         log.info(code.getCreatedAt().toString());
         log.info(String.valueOf(code.getCreatedAt().isAfter(LocalDateTime.now())));
 
-        if(code.getCreatedAt().isBefore(LocalDateTime.now())){
+        if (code.getCreatedAt().isBefore(LocalDateTime.now())) {
             bodyMessage.setMessage(ResponseMessage.LOGIN_FAIL);
             return new ResponseEntity<>(bodyMessage, HttpStatus.BAD_REQUEST);
-        }
-        else{
+        } else {
             bodyMessage.setStatus(StatusEnum.OK);
             bodyMessage.setMessage(ResponseMessage.LOGIN_SUCCESS);
             headers.set("Authorization", jwtTokenProvider.createAccessToken(code.getMember().getId()));
@@ -101,6 +101,11 @@ public class MemberService {
         }
 
         return new ResponseEntity<>(bodyMessage, headers, HttpStatus.OK);
+    }
+    public MemberResponseDto findMemberByEmail(String email) {
+         Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 메일로 가입한 유저가 없습니다: " + email));
 
+         return member.toDTO();
     }
 }

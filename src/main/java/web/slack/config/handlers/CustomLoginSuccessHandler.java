@@ -19,6 +19,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final MemberRepository memberRepository;
@@ -27,8 +28,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Member member = findMemberId(oAuth2User);
-
-        // TODO: 난수 생성하여 redirect url 옆에 ?id=$email&code=$code 형식으로 수정
 
         getRedirectStrategy().sendRedirect(request, response, makeRedirectUrl(memberService.generateCode(member)));
     }

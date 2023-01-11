@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ProfileRepository extends MongoRepository<Profile, String> {
+
+    Optional<Profile> findProfileByMemberIdAndAndWorkspaceId(String member, String workspace);
     Optional<Profile> findById(String id);
 
     List<Map<String, String>> findByMemberId(String memberId);

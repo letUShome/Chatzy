@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import web.slack.controller.dto.ProfileResponseDto;
 
 @Getter
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class Profile {
     private String workspaceId;
 
     @Builder
-    public Profile(String id,String nickname, String email, String memberId, String workspaceId){
+    public Profile(String id, String nickname, String email, String memberId, String workspaceId){
         this.id = id;
         this.nickname = nickname;
         this.email = email;
@@ -44,4 +45,8 @@ public class Profile {
     }
 
     public void setWorkspaceId(String workspaceId) { this.workspaceId = workspaceId; }
+
+    public ProfileResponseDto toDTO() {
+        return ProfileResponseDto.builder().entity(this).build();
+    }
 }

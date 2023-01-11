@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import web.slack.controller.dto.MemberResponseDto;
 
 @Getter
 @NoArgsConstructor
@@ -39,5 +40,9 @@ public class Member {
 
     public void updateTokenFlag() {
         this.tokenFlag = true;
+    }
+
+    public MemberResponseDto toDTO() {
+        return MemberResponseDto.builder().entity(this).build();
     }
 }

@@ -1,5 +1,6 @@
 package web.slack.controller.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import web.slack.domain.entity.Member;
 
@@ -11,7 +12,6 @@ public class MemberResponseDto {
     private String id;
     private String name;
     private String email;
-
     private List<Map<String, String>> profiles;
 
     public MemberResponseDto(Member entity, List<Map<String, String>> memberWorkspace) {
