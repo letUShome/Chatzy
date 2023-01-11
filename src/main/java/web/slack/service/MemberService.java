@@ -79,6 +79,8 @@ public class MemberService {
         GoogleCode code = codeRepository.findById(requestDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 인증입니다."));
 
+        codeRepository.deleteById(code.getId());
+
         log.info(code.getMember().getEmail());
 
         BodyMessage bodyMessage = new BodyMessage();
