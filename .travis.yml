@@ -9,8 +9,7 @@ cache:
   - "$HOME/.m2/repository"
   - "$HOME/.gradle"
 before_install:
-- openssl aes-256-cbc -K $encrypted_b846c1a3db1c_key -iv $encrypted_b846c1a3db1c_iv
-  -in application-oauth.properties.enc -out application-oauth.properties -d
+- openssl aes-256-cbc -K $encrypted_b846c1a3db1c_key -iv $encrypted_b846c1a3db1c_iv -in application-oauth.properties.enc -out application-oauth.properties -d
 - chmod +x gradlew
 - openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv -in application.properties.enc -out application.properties -d
 - mv application.properties ./src/main/resources
