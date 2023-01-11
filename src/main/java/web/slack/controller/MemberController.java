@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import web.slack.config.annotation.AuthMember;
 import web.slack.config.jwt.JwtTokenProvider;
 import web.slack.controller.dto.LogInRequestDto;
+import web.slack.controller.dto.OauthLogInRequestDto;
 import web.slack.controller.dto.SignUpRequestDto;
 import web.slack.controller.dto.MemberResponseDto;
 import web.slack.domain.entity.Member;
@@ -40,7 +41,14 @@ public class MemberController {
 
     @GetMapping("/current")
     public MemberResponseDto loadLoginUser(@AuthMember Member member){
-        return new MemberResponseDto(member);
+        return new MemberResponseDto(member, memberService.findMemberWorkspace(member));
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<?> googleLogIn(@RequestBody OauthLogInRequestDto requestDto){
+        log.info(requestDto.getId());
+        log.info(requestDto.getCode());
+        return memberService.googleLogIn(requestDto);
     }
 
     @PostMapping("/signup")
