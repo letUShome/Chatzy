@@ -11,40 +11,42 @@ import web.slack.controller.dto.ProfileResponseDto;
 @NoArgsConstructor
 @Document(collection = "Profile")
 public class Profile {
+    // TODO 다른 프로필 입력사항들은 추후에 업데이트
 
     @Id
     private String id;
 
     private String nickname;
 
-    private String email;
+    private String image;
 
     private String memberId;
 
     private String workspaceId;
 
+    private Authority auth;
+
     @Builder
-    public Profile(String id, String nickname, String email, String memberId, String workspaceId){
+    public Profile(String id, String nickname, String image, String memberId, String workspaceId, Authority auth){
         this.id = id;
         this.nickname = nickname;
-        this.email = email;
+        this.image = image;
         this.memberId = memberId;
         this.workspaceId = workspaceId;
+        this.auth = auth;
     }
 
-    public void setNickname(String nickname){
+    public void updateNickname(String nickname){
         this.nickname = nickname;
     }
 
-    public void setEmail(String email){
-        this.email = email;
+    public void updateImage(String image){
+        this.image = image;
     }
 
-    public void setMemberId(String memberId){
-        this.memberId = memberId;
+    public void updateAuth(Authority auth) {
+        this.auth = auth;
     }
-
-    public void setWorkspaceId(String workspaceId) { this.workspaceId = workspaceId; }
 
     public ProfileResponseDto toDTO() {
         return ProfileResponseDto.builder().entity(this).build();

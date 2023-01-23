@@ -41,6 +41,7 @@ public class MemberController {
 
     @GetMapping("/current")
     public MemberResponseDto loadLoginUser(@AuthMember Member member){
+        log.info("member:" + member.getEmail());
         return new MemberResponseDto(member, memberService.findMemberWorkspace(member));
     }
 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import web.slack.controller.dto.WorkspaceResponseDto;
 
 import java.util.List;
 
@@ -21,23 +22,34 @@ public class Workspace {
 
     private String name;
 
-    private List<String> profileIdList;
+    private String image;
+
+    private List<String> teammate;
 
     @Builder
-    public Workspace (String id, String name, List<String> profileIdList){
+    public Workspace (String id, String name, String image, List<String> profileIdList){
         this.id = id;
+        this.image = image;
         this.name = name;
-        if(profileIdList != null){
-            this.profileIdList = profileIdList;
-        }
+        this.teammate = profileIdList;
     }
 
-    public void setName(String name){
+    public void updateName(String name){
         this.name = name;
     }
 
-    public void setProfileIdList(List<String> profileIdList){
-        this.profileIdList = profileIdList;
+    public void updateImage(String image) {
+        this.image = image;
+    }
+
+    public void updateTeammate(List<String> profileIdList) {
+        this.teammate = profileIdList;
+    }
+
+    public WorkspaceResponseDto toDTO() {
+        return WorkspaceResponseDto.builder()
+                .entity(this)
+                .build();
     }
 
 

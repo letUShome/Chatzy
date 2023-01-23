@@ -12,6 +12,8 @@ public class MemberResponseDto {
     private String id;
     private String name;
     private String email;
+
+    //profile-workspace id맵을 return함
     private List<Map<String, String>> profiles;
 
     @Builder
