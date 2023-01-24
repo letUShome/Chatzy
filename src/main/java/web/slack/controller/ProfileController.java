@@ -26,20 +26,20 @@ public class ProfileController {
         return profileService.findAllProfileList();
     }
 
-    @GetMapping("/{id}")
-    public ProfileResponseDto findById(@PathVariable String id) {
-        return profileService.findById(id);
+    @GetMapping("/{profile_id}")
+    public ProfileResponseDto findById(@PathVariable String profile_id) {
+        return profileService.findById(profile_id);
     }
 
-    @PatchMapping("/{id}")
-    public ProfileResponseDto updateProfile(@PathVariable String id, @RequestBody ProfileRequestDto profileRequestDto){
-        return profileService.updateProfile(id, profileRequestDto);
+    @PatchMapping("/{profile_id}")
+    public ProfileResponseDto updateProfile(@PathVariable String profile_id, @RequestBody ProfileRequestDto profileRequestDto){
+        return profileService.updateProfile(profile_id, profileRequestDto);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteProfile(@PathVariable String id){
-        profileService.deleteProfile(id);
-        return "프로필이 삭제되었습니다. id = "+id;
+    @DeleteMapping("/{profile_id}")
+    public String deleteProfile(@PathVariable String profile_id){
+        profileService.deleteProfile(profile_id);
+        return "프로필이 삭제되었습니다. id = "+profile_id;
     }
 
 }

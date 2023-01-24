@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.slack.controller.dto.EmailRequestDto;
+import web.slack.controller.dto.ProfileResponseDto;
 import web.slack.controller.dto.WorkspaceRequestDto;
 import web.slack.controller.dto.WorkspaceResponseDto;
 import web.slack.domain.entity.Workspace;
@@ -40,10 +41,14 @@ public class WorkspaceService {
     }
 
     // 워크스페이스 상세 조회
-    public WorkspaceResponseDto findWorkspace(String id){
+    public WorkspaceResponseDto findWorkspace(String id, List<ProfileResponseDto> profileList){
         Workspace entity = workspaceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 워크스페이스가 없습니다. id=" + id));
-        return entity.toDTO();
+
+        return WorkspaceResponseDto.builder()
+                .entity(entity)
+                .profileList(profileList)
+                .build();
     }
 
     @Transactional
@@ -77,8 +82,9 @@ public class WorkspaceService {
         workspaceRepository.delete(workspace);
     }
 
-    public void addTeammate(EmailRequestDto emailRequestDto) {
-
+    public void addTeammate(ProfileResponseDto profileResponseDto, String workspace_id, EmailRequestDto emailRequestDto) {
+        //jsonpatch 만들기
+        //applyPatchToWorkspace하고 modifyWorkspace써서 고치기
     }
 }
 

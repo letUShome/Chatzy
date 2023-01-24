@@ -10,14 +10,12 @@ import web.slack.domain.entity.Workspace;
 @NoArgsConstructor
 public class ProfileRequestDto {
     private String nickname;
-    private String email;
     private String memberId;
     private String workspaceId;
 
     @Builder
-    public ProfileRequestDto(String nickname, String email, String memberId, String workspaceId){
+    public ProfileRequestDto(String nickname, String memberId, String workspaceId){
         this.nickname = nickname;
-        this.email = email;
         this.memberId = memberId;
         this.workspaceId = workspaceId;
     }
@@ -25,7 +23,6 @@ public class ProfileRequestDto {
     public Profile toEntity(){
         return Profile.builder()
                 .nickname(this.getNickname())
-                .email(this.getEmail())
                 .memberId(this.getMemberId())
                 .workspaceId(this.getWorkspaceId())
                 .build();

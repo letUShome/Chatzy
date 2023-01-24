@@ -13,15 +13,14 @@ public class WorkspaceResponseDto {
 
     private String id;
     private String name;
-    private List<String> profileIdList;
+    private List<ProfileResponseDto> teammates;
 
 
     @Builder
-    public WorkspaceResponseDto(Workspace entity){
+    public WorkspaceResponseDto(Workspace entity, List<ProfileResponseDto> profileList){
         this.id = entity.getId();
         this.name = entity.getName();
-        if(entity.getProfileIdList() != null)
-            this.profileIdList = entity.getProfileIdList();
+        this.teammates = profileList;
     }
 
 

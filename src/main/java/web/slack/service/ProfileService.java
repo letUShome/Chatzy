@@ -1,5 +1,7 @@
 package web.slack.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.slack.controller.dto.ProfileRequestDto;
@@ -13,31 +15,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileService {
-
     private final ProfileRepository profileRepository;
-
-    public ProfileService(ProfileRepository profileRepository) { this.profileRepository = profileRepository; }
-
-    public ProfileResponseDto buildResponseDto(Profile entity) { return new ProfileResponseDto(entity); }
 
     // 프로필 생성
     @Transactional
     public ProfileResponseDto saveProfile(ProfileRequestDto profileRequestDto){
         Profile profile = Profile.builder()
                 .nickname(profileRequestDto.getNickname())
-                .email(profileRequestDto.getEmail())
                 .memberId(profileRequestDto.getMemberId())
                 .workspaceId(profileRequestDto.getWorkspaceId())
                 .build();
 
         profileRepository.save(profile);
 
-        return buildResponseDto(profile);
+        return profile.toDTO();
     }
 
     // 프로필 전체 조회
-    public List<ProfileResponseDto> findAllProfileList(){
+    public List<ProfileResponseDto> findProfileList(){
         List<Profile> profileList = profileRepository.findAll();
         List<ProfileResponseDto> profileResponseDtoList = new ArrayList<>();
         for (Profile profile : profileList){
@@ -48,7 +45,7 @@ public class ProfileService {
     }
 
     // 프로필 상세 조회
-    public ProfileResponseDto findById(String id){
+    public ProfileResponseDto findProfile(String id){
         Profile entity = profileRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 프로필이 없습니다. id " + id));
         return new ProfileResponseDto(entity);
@@ -57,6 +54,18 @@ public class ProfileService {
     public Profile findByMemberWorkspace(String memberId, String workspaceId) {
         return profileRepository.findProfileByMemberIdAndAndWorkspaceId(memberId, workspaceId)
                 .orElseThrow(() ->  new IllegalArgumentException("워크스페이스와 멤버 정보에 오류가 있습니다"));
+    }
+
+    public List<ProfileResponseDto> findProfileListByWorkspace(String workspaceId){
+        List<Profile> profileList= profileRepository.findProfilesByWorkspaceId(workspaceId);
+        List<ProfileResponseDto> profileDTOList = new ArrayList<>();
+
+        if(!profileList.isEmpty()) {
+            for(Profile profile : profileList) {
+                profileDTOList.add(profile.toDTO());
+            }
+        }
+        return profileDTOList;
     }
 
     // 프로필 수정

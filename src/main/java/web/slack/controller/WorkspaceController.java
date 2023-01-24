@@ -8,11 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import web.slack.controller.dto.EmailRequestDto;
-import web.slack.controller.dto.WorkspaceRequestDto;
-import web.slack.controller.dto.WorkspaceResponseDto;
+import web.slack.controller.dto.*;
 import web.slack.domain.entity.Workspace;
 import web.slack.service.EmailService;
+import web.slack.service.ProfileService;
 import web.slack.service.WorkspaceService;
 
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.List;
 public class WorkspaceController {
 
     private final WorkspaceService workspaceService;
+    private final ProfileService profileService;
     private final EmailService emailService;
 
     @PostMapping()
@@ -32,9 +32,18 @@ public class WorkspaceController {
     }
 
     @PostMapping("/{workspace_id}/invitation")
-    public String workspaceModify(@RequestBody EmailRequestDto emailRequestDto){
-        workspaceService.addTeammate(emailRequestDto); //초대이메일을 보니까 아직 메일을 수락하지 않았음에도 이미 list에 넣어놓음
-        emailService.sendEmail(emailRequestDto);
+    public String workspaceModify(@PathVariable String workspaceId, @RequestBody EmailRequestDto emailRequestDto){
+        List<String> emailList = emailRequestDto.getEmail();
+        for (String s : emailList) {
+            ProfileRequestDto profileRequestDto = ProfileRequestDto
+                    .builder()
+                    .workspaceId(workspaceId)
+                    .nickname(s).build();
+
+            ProfileResponseDto profileResponseDto = profileService.saveProfile(profileRequestDto);
+            workspaceService.addTeammate(profileResponseDto, workspaceId, emailRequestDto); //초대이메일을 보니까 아직 메일을 수락하지 않았음에도 이미 list에 넣어놓음
+            emailService.sendEmail(emailRequestDto);
+        }
         return "ok";
     }
 
@@ -44,14 +53,15 @@ public class WorkspaceController {
     }
 
     @GetMapping("/{workspace_id}")
-    public WorkspaceResponseDto workspaceDetails (@PathVariable String workspace_id){
-        return workspaceService.findWorkspace(workspace_id);
+    public WorkspaceResponseDto workspaceDetails (@PathVariable String workspaceId){
+        List<ProfileResponseDto> profileList = profileService.findProfileListByWorkspace(workspaceId);
+        return workspaceService.findWorkspace(workspaceId, profileList);
     }
 
     @PatchMapping(path = "/{workspace_id}", consumes = "application/json-patch+json")
-    public ResponseEntity<?> workspaceModify(@PathVariable String workspace_id, @RequestBody JsonPatch patch){
+    public ResponseEntity<?> workspaceModify(@PathVariable String workspaceId, @RequestBody JsonPatch patch){
         try {
-            Workspace workspacePatched = workspaceService.applyPatchToWorkspace(patch, workspace_id);
+            Workspace workspacePatched = workspaceService.applyPatchToWorkspace(patch, workspaceId);
             WorkspaceResponseDto workspaceDTO = workspaceService.modifyWorkspace(workspacePatched);
             return ResponseEntity.ok(workspaceDTO);
         } catch (JsonPatchException | JsonProcessingException e) {
