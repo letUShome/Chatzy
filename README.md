@@ -28,27 +28,29 @@
           </br> [기타] mongodb 설계, api 문서 작성 등 </td>
    </tr>
 </table>
-
+<br>
 
 ## 🧀 개요
 'Chatzy'는 협업을 위한 채팅 웹서비스로, 프로젝트마다 1:1, n:n 채팅방을 자동으로 생성하여 비대면으로도 효율적인 협업을 진행할 수 있도록 도모합니다.
 
+<br>
+
 ## 🧀 기술 스택    
 - DEVELOP &nbsp; 
-![Spring](https://img.shields.io/badge/Spring-6DB33F?style=round-square&logo=Spring&logoColor=white) <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat-square&logo=Kakao&logoColor=white"/>
+![Spring](https://img.shields.io/badge/Spring-6DB33F?style=round-square&logo=Spring&logoColor=white) <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/> <img src="https://img.shields.io/badge/Google-4285F4?style=flat-square&logo=Google&logoColor=white"/> <img src="https://img.shields.io/badge/Stomp-010101?style=flat-square&logo=Stomp&logoColor=white"/> <img src="https://img.shields.io/badge/Websocket-010101?style=flat-square&logo=Websocket&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
 
-- AWS &nbsp;
-<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-square&logo=AmazonS3&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=Amazon EC2&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat-square&logo=Amazon RDS&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon LoadBalancer-E68B49?style=flat-square&logo=Amazon LoadBalancer&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon CodeDeploy-7D9B4B?style=flat-square&logo=Amazon CodeDeploy&logoColor=white"/>
+- CICD &nbsp;
+<img src="https://img.shields.io/badge/Amazon CodeDeploy-7D9B4B?style=flat-square&logo=Amazon CodeDeploy&logoColor=white"/> <img src="https://img.shields.io/badge/Travis CI-3EAAAF?style=flat-square&logo=Travis CI&logoColor=white"/>
+
 
 - ETC &nbsp; 
-<img src="https://img.shields.io/badge/GitHub -181717?style=flat-square&logo=GitHub&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub Action-256EE0?style=flat-square&logo=GitHub Action&logoColor=white"/></br>
+<img src="https://img.shields.io/badge/GitHub -181717?style=flat-square&logo=GitHub&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub Actions-256EE0?style=flat-square&logo=GitHub Actions&logoColor=white"/></br>
 
-<img src="https://user-images.githubusercontent.com/99666136/183558301-95416e18-9b6f-455b-a02c-1878840cae5f.png"/>
-
+<br>
 
 ## 🧀 프로젝트 구조
 
-## 라이브러리
+### 라이브러리
 1. spring boot web
 2. spring boot mongodb
 3. spring boot mail
@@ -88,51 +90,54 @@
     │           │   └── 📑 SecurityConfig.java
     │           ├── 🗂 controller
     │           │   ├── 🗂 dto - 생략
-    │           │   ├── 📑 EventController.java
+    │           │   ├── 📑 ChatroomController.java
+    │           │   ├── 📑 ChatTestController.java
+    │           │   ├── 📑 EmailController.java
     │           │   ├── 📑 MemberController.java
-    │           │   ├── 📑 SheetController.ja
-    │           │   └── 📑 StoreController.java
+    │           │   ├── 📑 MessageController.java
+    │           │   ├── 📑 ProfileController.java
+    │           │   └── 📑 WorkspaceController.java
     │           ├── 🗂 domain
-    │           │   ├── 📑 BaseTimeEntity.java
-    │           │   ├── 📑 Comment.java
-    │           │   ├── 📑 Event.java
+    │           │   ├── 📑 BodyMessage.java
+    │           │   ├── 📑 Chatroom.java
+    │           │   ├── 📑 ChatroomType.java
+    │           │   ├── 📑 EmailToken.java
+    │           │   ├── 📑 GoogleCode.java
     │           │   ├── 📑 Member.java
-    │           │   ├── 📑 Recomment.java
-    │           │   ├── 📑 Sheet.java
-    │           │   └── 📑 Store.java
-    │           ├── 🗂 dto ── 생략
-    │           ├── 🗂 exception
-    │           │   ├── 📑 CustomException.java
-    │           │   ├── 📑 ErrorCode.java
-    │           │   ├── 📑 ErrorResponse.java
-    │           │   └── 📑 GlobalExceptionHandler.java
+    │           │   ├── 📑 Message.java
+    │           │   ├── 📑 MessageType.java
+    │           │   ├── 📑 Profile.java
+    │           │   ├── 📑 Role.java
+    │           │   └── 📑 Workspace.java
     │           ├── 🗂 repository
-    │           │   ├── 📑 CommentRepository.java
-    │           │   ├── 📑 EventRepository.java
+    │           │   ├── 📑 ChatroomRepository.java
+    │           │   ├── 📑 EmailTokenRepository.java
+    │           │   ├── 📑 GoogleCodeRepsoitory.java
+    │           │   ├── 📑 MemberInviteRepository.java
     │           │   ├── 📑 MemberRepository.java
-    │           │   ├── 📑 RecommentRepository.java
-    │           │   ├── 📑 SheetRepository.java
-    │           │   └── 📑 StoreRepository.java
+    │           │   ├── 📑 MessageRepository.java
+    │           │   ├── 📑 ProfileRepository.java
+    │           │   └── 📑 WorkspaceRepository.java
     │           ├── 🗂 service
-    │           │   ├── 📑 CommentService.java
-    │           │   ├── 📑 EventService.java
-    |           │   ├── 📑 ImageUploadService.java
+    │           │   ├── 📑 ChatroomService.java
+    │           │   ├── 📑 CustomOauth2UserService.java
+    │           │   ├── 📑 EmailService.java
+    │           │   ├── 📑 EmailHandler.java
     │           │   ├── 📑 MemberService.java
-    │           │   ├── 📑 OAuthUserService.java
-    │           │   ├── 📑 SheetService.java
-    │           └── └── 📑 StoreService.java
+    │           │   ├── 📑 MessageService.java
+    │           │   ├── 📑 ProfileService.java
+    │           │   ├── 📑 RedisService.java
+    │           │   └── 📑 WorkspaceService.java
+    │           ├── 🗂 util
+    │           │   ├── 📑 ErrorResponse.java
+    │           │   ├── 📑 GlobalExceptionHandler.java
+    │           │   ├── 📑 ResponseMessage.java
+    │           └── └── 📑 StatusEnum.java
     └── 🗂 resources
+        ├── 🗂 templates
         ├── 📑 application.properties
-        ├── 📑 application-aws.properties
         └── 📑 application-oauth.properties
 </code>
 </pre>
-
-
-## 🍰 데이터베이스 설계도(E-R diagram)
-<img src = "https://github.com/Bakery-EFUB/Bakery-Back/blob/develop/erd-diagram.PNG"/>
-
-## 🍰 API 명세서
-### [🔗 Link](https://www.notion.so/efub/API-6461422a295b47ee831e14a51340c2a0)
 
 
