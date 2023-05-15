@@ -1,8 +1,8 @@
-# SLACK 클론코딩 프로젝트
+# 🧀 Chatzy 프로젝트
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/EFUB-CLONE-SLACK/SLACK_BACKEND&count_bg=%23FF7B72&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-## 🍏 백엔드 팀원 소개
+## 🥳 백엔드 팀원 소개
 
 <table border="1" cellspacing="0" cellpadding="0" width="90%">
     <tr width="100%">
@@ -11,28 +11,29 @@
         <td width="30%" align="center"><a href= "https://github.com/sunnyineverywhere">이선의</a></td>
     </tr>
     <tr width="100%">
-        <td width="30%" align="center"><img src = "https://github.com/Bakery-EFUB/Bakery-Back/blob/develop/siyeonKim.png" width="80%"/></td>
-        <td width="30%" align="center"><img src = "https://github.com/Bakery-EFUB/Bakery-Back/blob/develop/siyeonKim.png" width="80%"/></td>
-        <td width="30%" align="center"><img src = "https://github.com/Bakery-EFUB/Bakery-Back/blob/develop/siyeonKim.png" width="80%"/></td>
+        <td width="30%" align="center"><img src = "https://github.com/siyeonkm.png" width="80%"/></td>
+        <td width="30%" align="center"><img src = "https://github.com/eunseo22mv.png" width="80%"/></td>
+        <td width="30%" align="center"><img src = "https://github.com/sunnyineverywhere.png" width="80%"/></td>
     </tr>
     <tr width="100%">
-       <td width="30%" align="center">[로그인] 카카오 로그인, JWT 토큰을 이용한 로그인 유지, 유저별 접근권한 설정 
-          </br> [웹소켓] 어쩌구
-          </br> [기타] 데이터베이스 설계, 리드미 작성 등.</td>
-       <td width="30%" align="center">[기능] 제안서 작성, 제안서 일자 수정, 제안서 조회, 제안서 리스트 조회 기능 등 
-          </br> [댓글] 댓글 및 대댓글 작성, 삭제, 조회 기능 등
+       <td width="30%" align="center">[채팅] Websocket과 Stomp를 이용한 1:1 및 n:n 채팅 기능, 채팅방 관련 CRUD 기능  
+          </br> [프로필/워크스페이스] 프로필 및 워크스페이스 리팩토링 및 오류해결 진행
+          </br> [기타] mongodb 설계, api문서 작성, 리드미 작성 등.</td>
+       <td width="30%" align="center">[워크스페이스] 워크스페이스 CRUD 초대메일 발송 기능 
+          </br> [프로필] 유저와 1:n 관계인 프로필 관련 CRUD
           </br> [기타] 데이터베이스 설계, api 문서 작성 등</td>
-        <td width="30%" align="center">[기능] 제안서 작성, 제안서 일자 수정, 제안서 조회, 제안서 리스트 조회 기능 등 
-          </br> [댓글] 댓글 및 대댓글 작성, 삭제, 조회 기능 등
-          </br> [기타] 데이터베이스 설계, api 문서 작성 등</td>
+        <td width="30%" align="center">[로그인] Google API를 이용한 Oauth2 로그인/회원가입, JWT와 Redis를 이용한 인가작업 관리 등 
+          </br> [유저] 유저 관련 CRUD
+          </br> [배포] Travis ci 및 Github Action을 이용한 CICD 파이프라인 구축
+          </br> [기타] mongodb 설계, api 문서 작성 등 </td>
    </tr>
 </table>
 
 
-## 🍰 개요
-'CAKER'는 레터링 케이크 주문/판매 플랫폼으로, 레터링 케이크를 주문하고자 하는 구매자와 그에 맞는 서비스를 제공하는 판매자를 서로 연결해주어 기존의 불편함을 해소하고 원하는 케이크 가게를 손쉽게 찾게 해줍니다.
+## 🧀 개요
+'Chatzy'는 협업을 위한 채팅 웹서비스로, 프로젝트마다 1:1, n:n 채팅방을 자동으로 생성하여 비대면으로도 효율적인 협업을 진행할 수 있도록 도모합니다.
 
-## 🍰 기술 스택    
+## 🧀 기술 스택    
 - DEVELOP &nbsp; 
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=round-square&logo=Spring&logoColor=white) <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat-square&logo=Kakao&logoColor=white"/>
 
@@ -44,82 +45,82 @@
 
 <img src="https://user-images.githubusercontent.com/99666136/183558301-95416e18-9b6f-455b-a02c-1878840cae5f.png"/>
 
-## 🍰 라이브러리
-1. lombok
-2. spring web
-3. spring data jpa
-4. oauth2 client
-5. spring boot test
-6. spring session jdbc
-7. spring security test
-8. amazon awssdk
-9. spring cloud aws
-10. mysql driver
 
-## 🍰 프로젝트 구조
+## 🧀 프로젝트 구조
 
-### 설명
-1. main/java/[프로젝트명]/config ▶️ security 및 cors 설정
-2. main/java/[프로젝트명]/controller ▶ Controller
-3. main/java/[프로젝트명]/domain ▶️ Entity
-4. main/java/[프로젝트명]/dto ▶️ request와 response dto
-5. main/java/[프로젝트명]/exception ▶️ 커스텀 ErrorHandler
-6. main/java/[프로젝트명]/respository ▶️ Repository
-7. main/java/[프로젝트명]/service ▶️ Service
-8. main/java/[프로젝트명]/Application.java
-9. main/resources/application.properties ▶️ session 관련 설정
-10. main/resources/application-aws.properties ▶️ aws 관련 설정
-11. main/resources/application-oauth.properties ▶️ kakao login 관련 설정
+## 라이브러리
+1. spring boot web
+2. spring boot mongodb
+3. spring boot mail
+4. spring boot thymeleaf
+5. spring boot security
+6. spring boot data redis
+7. spring boot websocket
+8. spring boot test
+9. lombok
+10. sockjs-client
+11. stomp-websocket
+12. gson
+13. jjwt
 
-### 🍰 폴더 
+### 폴더 
 <pre>
 <code>
 └── 🗂 main
     ├── 🗂 java
-    │   └── 🗂 com
-    │       └── 🗂 bakery
-    │           └── 🗂 caker
-    │               ├── 📑 Application.java
-    │               ├── 🗂 config
-    │               │   ├── 📑 Authority.java
-    │               │   ├── 📑 OAuth2SuccessHandler.java
-    │               │   ├── 📑 JwtAuthenticationFilter.java
-    │               │   ├── 📑 SecurityCOnfig.java
-    │               │   └── 📑 WebConfig.java
-    │               ├── 🗂 controller
-    │               │   ├── 📑 EventController.java
-    │               │   ├── 📑 MemberController.java
-    │               │   ├── 📑 SheetController.ja
-    │               │   └── 📑 StoreController.java
-    │               ├── 🗂 domain
-    │               │   ├── 📑 BaseTimeEntity.java
-    │               │   ├── 📑 Comment.java
-    │               │   ├── 📑 Event.java
-    │               │   ├── 📑 Member.java
-    │               │   ├── 📑 Recomment.java
-    │               │   ├── 📑 Sheet.java
-    │               │   └── 📑 Store.java
-    │               ├── 🗂 dto ── 생략
-    │               ├── 🗂 exception
-    │               │   ├── 📑 CustomException.java
-    │               │   ├── 📑 ErrorCode.java
-    │               │   ├── 📑 ErrorResponse.java
-    │               │   └── 📑 GlobalExceptionHandler.java
-    │               ├── 🗂 repository
-    │               │   ├── 📑 CommentRepository.java
-    │               │   ├── 📑 EventRepository.java
-    │               │   ├── 📑 MemberRepository.java
-    │               │   ├── 📑 RecommentRepository.java
-    │               │   ├── 📑 SheetRepository.java
-    │               │   └── 📑 StoreRepository.java
-    │               ├── 🗂 service
-    │               │   ├── 📑 CommentService.java
-    │               │   ├── 📑 EventService.java
-    │               │   ├── 📑 ImageUploadService.java
-    │               │   ├── 📑 MemberService.java
-    │               │   ├── 📑 OAuthUserService.java
-    │               │   ├── 📑 SheetService.java
-    │               └── └── 📑 StoreService.java
+    │   └── 🗂 web
+    │       └── 🗂 slack
+    │           ├── 📑 SlackCloneProjectApplication.java
+    │           ├── 🗂 config
+    │           │   ├── 🗂 annotation
+    │           │   │   └── 📑 AuthMember.java
+    │           │   ├── 🗂 handlers
+    │           │   │   └── 📑 ChatPreHandler.java
+    │           │   │   └── 📑 CustomLoginSuccessHandler.java
+    │           │   │   └── 📑 CustomLogoutSucessHandler.java
+    │           │   ├── 🗂 jwt
+    │           │   │   └── 📑 JwtAuthenticationFilter.java
+    │           │   │   └── 📑 JwtTokenProvider.java
+    │           │   ├── 📑 AuthMemberArgumentResolver.java
+    │           │   ├── 📑 CorsConfig.java
+    │           │   ├── 📑 WebConfig.java
+    │           │   ├── 📑 WebSocketConfig.java
+    │           │   └── 📑 SecurityConfig.java
+    │           ├── 🗂 controller
+    │           │   ├── 🗂 dto - 생략
+    │           │   ├── 📑 EventController.java
+    │           │   ├── 📑 MemberController.java
+    │           │   ├── 📑 SheetController.ja
+    │           │   └── 📑 StoreController.java
+    │           ├── 🗂 domain
+    │           │   ├── 📑 BaseTimeEntity.java
+    │           │   ├── 📑 Comment.java
+    │           │   ├── 📑 Event.java
+    │           │   ├── 📑 Member.java
+    │           │   ├── 📑 Recomment.java
+    │           │   ├── 📑 Sheet.java
+    │           │   └── 📑 Store.java
+    │           ├── 🗂 dto ── 생략
+    │           ├── 🗂 exception
+    │           │   ├── 📑 CustomException.java
+    │           │   ├── 📑 ErrorCode.java
+    │           │   ├── 📑 ErrorResponse.java
+    │           │   └── 📑 GlobalExceptionHandler.java
+    │           ├── 🗂 repository
+    │           │   ├── 📑 CommentRepository.java
+    │           │   ├── 📑 EventRepository.java
+    │           │   ├── 📑 MemberRepository.java
+    │           │   ├── 📑 RecommentRepository.java
+    │           │   ├── 📑 SheetRepository.java
+    │           │   └── 📑 StoreRepository.java
+    │           ├── 🗂 service
+    │           │   ├── 📑 CommentService.java
+    │           │   ├── 📑 EventService.java
+    |           │   ├── 📑 ImageUploadService.java
+    │           │   ├── 📑 MemberService.java
+    │           │   ├── 📑 OAuthUserService.java
+    │           │   ├── 📑 SheetService.java
+    │           └── └── 📑 StoreService.java
     └── 🗂 resources
         ├── 📑 application.properties
         ├── 📑 application-aws.properties
